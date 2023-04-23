@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "289479140720",
+    "project_id": "class-room-8dddb",
+    "storage_bucket": "class-room-8dddb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:289479140720:android:c8ea1044293af76e725bb5",
+        "android_client_info": {
+          "package_name": "com.anhkiet.classroom.class_room_chin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "289479140720-j67gstd4u5vlu1rsblfg0c8bnkj1iisj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBazBhfvd9kCWHPDJX1q3An_05TPWtqI-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "289479140720-j67gstd4u5vlu1rsblfg0c8bnkj1iisj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
