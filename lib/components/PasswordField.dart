@@ -19,6 +19,7 @@ class _PasswordFieldState extends State<PasswordField> {
       controller: widget.controller,
       hintText: 'Password',
       obscureText: !_isVisiable,
+      prefixIcon: const Icon(Icons.password_outlined),
       suffixIcon: TextButton(
         onPressed: ()=> setState((){
     _isVisiable = !_isVisiable;

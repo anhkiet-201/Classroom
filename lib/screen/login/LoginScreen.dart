@@ -1,10 +1,13 @@
 
 import 'package:class_room_chin/bloc/login/login_bloc.dart';
+import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
+import 'package:class_room_chin/screen/signup/SignUpScreen.dart';
 import 'package:class_room_chin/utils/Utils.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -41,16 +44,13 @@ class LoginScreen extends StatelessWidget {
               body: Center(
                 child:  LoadingAnimationWidget.twistingDots(
                   size: 50,
-                  leftDotColor: classColor2,
-                  rightDotColor: classColor3,
+                  leftDotColor: color2,
+                  rightDotColor: color3,
                 ),
               ),
             );
           }
-
           return _BuildContent(context);
-
-
         },
       )
     );
@@ -58,9 +58,9 @@ class LoginScreen extends StatelessWidget {
 
   Scaffold _BuildContent(BuildContext context) {
     return Scaffold(
-      body: Scaffold(
-          backgroundColor: Colors.white,
-          body: SafeArea(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Center(
@@ -69,37 +69,32 @@ class LoginScreen extends StatelessWidget {
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: Column(
                     children: [
-                      SizedBox(
-                        height: 300,
+                      Align(
+                        alignment: Alignment.topLeft,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Spacer(),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Welcome,',
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        fontWeight: FontWeight.bold),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                  Text(
-                                    'Sign in to continue,',
-                                    style: TextStyle(
-                                        fontSize: 35,
-                                        color: primaryColor.withOpacity(0.6)),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  )
-                                ],
-                              ),
+                            const Text(
+                              'Welcome,',
+                              style: TextStyle(
+                                  fontSize: 40,
+                                  fontWeight: FontWeight.bold),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                            Text(
+                              'Sign in to continue,',
+                              style: TextStyle(
+                                  fontSize: 35,
+                                  color: primaryColor.withOpacity(0.6)),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             )
                           ],
                         ),
+                      ),
+                      const SizedBox(
+                        height: 50,
                       ),
                       EmailField(
                         controller: _emailController,
@@ -124,37 +119,45 @@ class LoginScreen extends StatelessWidget {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: TextButton(onPressed: (){}, child: Text("Forget password?")),
+                        child: TextButton(onPressed: (){}, child: const Text("Forget password?")),
                       ),
                       const SizedBox(
                         height: 30,
                       ),
-                      const Line(
-                        text: "Or",
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text('Not a member?'),
+                          TextButton(
+                              onPressed: (){
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (_) => SignUpScreen()
+                                  )
+                                );
+                              },
+                              child: Text(
+                                'Signup now.',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: color3
+                                ),
+                              )
+                          )
+                        ],
                       ),
                       const SizedBox(
                         height: 30,
-                      ),
-                      CustomButton(
-                        text: "Facebook",
-                        onClick: () {},
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      CustomButton(
-                        text: "Google",
-                        onClick: () {},
-                      ),
-                      const SizedBox(
-                        height: 50,
                       ),
                     ],
                   ),
                 ),
               ),
             ),
-          )));
+          ),
+        )
+    );
   }
 }
 

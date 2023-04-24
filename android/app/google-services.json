@@ -29,6 +29,13 @@
             {
               "client_id": "289479140720-j67gstd4u5vlu1rsblfg0c8bnkj1iisj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "289479140720-8rieteahg1m31p7hpar562p1pgpf8tns.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.anhkiet.classroom.classRoomChin"
+              }
             }
           ]
         }

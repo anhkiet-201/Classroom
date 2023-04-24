@@ -1,8 +1,7 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:class_room_chin/utils/Utils.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
@@ -11,6 +10,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc() : super(LoginInitial()) {
     on<LoginRequest>((event, emit) => _handleLoginEvent(event));
   }
+
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   final email = "igg.anhkiet1@gmail.com";
   final password = "12345678";
@@ -27,28 +28,26 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
 
     if(!isValidEmail(event.email.trim())){
-      emit(LoginFailure("Email invalidate!"));
+      emit(LoginFailure("Invalid email!"));
       return;
     }
 
     if(event.password.length < 8){
-      emit(LoginFailure("The length of password not enought!"));
+      emit(LoginFailure("Password length is not enough. \nPassword must be at least 8 characters.!"));
       return;
     }
-
-
     emit(LoginLoading());
-    await Future.delayed(const Duration(seconds: 2));
-    if(event.email != email){
-      emit(LoginFailure("Email not match!"));
-      return;
-    }
-    if(event.password.trim() != password){
-      print(event.password != password);
-      emit(LoginFailure("Password not match!"));
-      return;
-    }
-    emit(LoginSuccess());
+
+    auth.signInWithEmailAndPassword(email: event.email.trim(), password: event.password.trim())
+        .then((value) {
+          if(value.user == null){
+            emit(LoginFailure("error"));
+          }else{
+            emit(LoginSuccess());
+          }
+    } ).onError<FirebaseAuthException>((error, stackTrace){
+      emit(LoginFailure(error.message ?? "error"));
+    });
 
   }
 

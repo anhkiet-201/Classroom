@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iconsax/iconsax.dart';
 
 import '../utils/Utils.dart';
 import 'CustomTextField.dart';
@@ -20,6 +21,7 @@ class _EmailFieldState extends State<EmailField> {
       controller: widget.controller,
       hintText: 'Email',
       inputType: TextInputType.emailAddress,
+      prefixIcon: const Icon(Icons.email_outlined),
       onChange: (value){
         if(value.isNotEmpty){
           _visiable = true;
