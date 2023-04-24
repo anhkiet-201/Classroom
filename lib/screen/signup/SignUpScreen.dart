@@ -2,6 +2,7 @@
 import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomTextField.dart';
+import 'package:class_room_chin/components/Loading.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
@@ -39,15 +40,7 @@ class SignUpScreen extends StatelessWidget {
         },
         builder: (context, state) {
           if (state is SignUpLoading) {
-            return Scaffold(
-              body: Center(
-                child: LoadingAnimationWidget.twistingDots(
-                  size: 50,
-                  leftDotColor: color2,
-                  rightDotColor: color3,
-                ),
-              ),
-            );
+            return Loading();
           }
         return _BuildContent(context);
       },

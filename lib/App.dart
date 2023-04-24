@@ -1,5 +1,6 @@
 import 'package:class_room_chin/bloc/login/login_bloc.dart';
 import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
+import 'package:class_room_chin/screen/AppNav.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
 import 'package:class_room_chin/screen/login/LoginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -31,7 +32,7 @@ class App extends StatelessWidget {
               ),
               useMaterial3: true
           ),
-          home: FirebaseAuth.instance.currentUser == null ? LoginScreen() : const HomeScreen(),
+          home: FirebaseAuth.instance.currentUser == null ? LoginScreen() : HomeScreen(),
         )
     );
   }

@@ -14,6 +14,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../components/EmailField.dart';
 import '../../components/Line.dart';
+import '../../components/Loading.dart';
 import '../../components/PasswordField.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -40,15 +41,7 @@ class LoginScreen extends StatelessWidget {
         builder: ( context, state) {
 
           if(state is LoginLoading) {
-            return Scaffold(
-              body: Center(
-                child:  LoadingAnimationWidget.twistingDots(
-                  size: 50,
-                  leftDotColor: color2,
-                  rightDotColor: color3,
-                ),
-              ),
-            );
+            return Loading();
           }
           return _BuildContent(context);
         },
@@ -141,7 +134,7 @@ class LoginScreen extends StatelessWidget {
                                 'Signup now.',
                                 style: TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    color: color3
+                                    color: secondaryColor
                                 ),
                               )
                           )
