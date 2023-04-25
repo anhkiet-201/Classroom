@@ -1,18 +1,14 @@
-
 import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomTextField.dart';
 import 'package:class_room_chin/components/Loading.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
-import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/models/User.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
 import 'package:class_room_chin/utils/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-
 import '../../components/EmailField.dart';
-import '../../components/Line.dart';
 import '../../components/PasswordField.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -21,27 +17,30 @@ class SignUpScreen extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _birthdayController =
+      TextEditingController(text: '01/01/2001');
 
   @override
   Widget build(BuildContext context) {
+    print('render');
     return ChangeWidgetAnimation(
         child: BlocConsumer<SignUpBloc, SignUpState>(
-        listener: (context, state) {
-          if(state is SignUpSuccess){
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>HomeScreen()));
-          }
-
-          if(state is SignUpFailure){
-            ShowSnackbar(context, title: "Error!", content: state.error);
-          }
-        },
-        listenWhen: (_, state) {
-          return true;
-        },
-        builder: (context, state) {
-          if (state is SignUpLoading) {
-            return Loading();
-          }
+      listener: (context, state) {
+        if (state is SignUpSuccess) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => const HomeScreen()));
+        }
+        if (state is SignUpFailure) {
+          ShowSnackbar(context, title: "Error!", content: state.error);
+        }
+      },
+      listenWhen: (_, state) {
+        return true;
+      },
+      builder: (context, state) {
+        if (state is SignUpLoading) {
+          return const Loading();
+        }
         return _BuildContent(context);
       },
     ));
@@ -79,32 +78,48 @@ class SignUpScreen extends StatelessWidget {
                         prefixIcon: const Icon(Icons.person_2_outlined),
                         controller: _usernameController,
                       ),
-                      const SizedBox(
-                        height: 30,
+                      CustomTextField(
+                        hintText: 'Birthday',
+                        prefixIcon: const Icon(Icons.date_range_outlined),
+                        readOnly: true,
+                        controller: _birthdayController,
+                        onTap: () {
+                          showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime(1950),
+                                  lastDate: DateTime.now())
+                              .then((value) {
+                            if (value != null) {
+                              _birthdayController.text =
+                                  '${value.day}/${value.month}/${value.year}';
+                            }
+                          });
+                        },
                       ),
                       EmailField(
                         controller: _emailController,
-                      ),
-                      const SizedBox(
-                        height: 30,
                       ),
                       PasswordField(
                         controller: _passController,
                       ),
                       const SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                       CustomButton(
                         text: "Signup",
                         onClick: () {
-                          context.read<SignUpBloc>().add(SignUpRequest(email: _emailController.text.trim(), password: _passController.text, username: _usernameController.text));
+                          context.read<SignUpBloc>().add(
+                              SignUpRequest(
+                                user: User(
+                                    email: _emailController.text.trim(),
+                                    password: _passController.text,
+                                    userName: _usernameController.text,
+                                    birthday: _birthdayController.text
+                                )
+                              )
+                          );
                         },
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      const SizedBox(
-                        height: 30,
                       ),
                     ],
                   ),

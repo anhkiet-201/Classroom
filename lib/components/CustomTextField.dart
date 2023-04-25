@@ -9,7 +9,10 @@ class CustomTextField extends StatefulWidget {
     this.inputType,
     this.suffixIcon,
     this.onChange,
-    this.prefixIcon
+    this.prefixIcon,
+    this.enable = true,
+    this.readOnly = false,
+    this.onTap
   }) : super(key: key);
 
   final String? hintText;
@@ -19,6 +22,9 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final Function(String)? onChange;
+  final bool enable;
+  final bool readOnly;
+  final Function? onTap;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -49,8 +55,9 @@ class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProv
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       height: 50,
+      margin: const EdgeInsets.symmetric(vertical: 15),
       child: Stack(
         children: [
           TextFormField(
@@ -65,6 +72,9 @@ class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProv
             keyboardType: widget.inputType,
             controller: widget.controller,
             obscureText: widget.obscureText,
+            enabled: widget.enable,
+            readOnly: widget.readOnly,
+            onTap: () => widget.onTap?.call(),
           ),
           Align(
             alignment: Alignment.bottomCenter,

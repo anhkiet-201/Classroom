@@ -1,4 +1,6 @@
 import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/screen/create_class/CreateClassroom.dart';
+import 'package:class_room_chin/screen/join_class/JoinClassroom.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -100,14 +102,18 @@ class HomeScreen extends StatelessWidget {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             _bottomSheetButton(
-                                              onClick: (){},
+                                              onClick: (){
+                                                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const JoinClassroom()));
+                                              },
                                               icon: Iconsax.add_circle,
-                                              text: 'Join an classroom'
+                                              text: 'Join classroom'
                                             ),
                                             _bottomSheetButton(
-                                                onClick: (){},
+                                                onClick: (){
+                                                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=> CreateClassroom()));
+                                                },
                                                 icon: Iconsax.add_circle,
-                                                text: 'Join an classroom'
+                                                text: 'Create classroom'
                                             ),
                                           ],
                                         ),
