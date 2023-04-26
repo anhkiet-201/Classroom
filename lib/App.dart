@@ -1,3 +1,4 @@
+import 'package:class_room_chin/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:class_room_chin/bloc/login/login_bloc.dart';
 import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
@@ -11,11 +12,11 @@ class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    print('App render');
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (_) => LoginBloc()),
-          BlocProvider(create: (_) => SignUpBloc(),)
+          BlocProvider(create: (_) => SignUpBloc(),),
+          BlocProvider(create: (_) => EditProfileBloc())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

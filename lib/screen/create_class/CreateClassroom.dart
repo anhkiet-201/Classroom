@@ -1,3 +1,4 @@
+import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -45,20 +46,7 @@ class CreateClassroom extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: (){},
-                  child: const SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  ),
-                ),
-              )
+              CustomButton(text: 'OK', onClick: (){})
             ],
           ),
         ),

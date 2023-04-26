@@ -37,7 +37,6 @@ class LoginScreen extends StatelessWidget {
           return true;
         },
         builder: ( context, state) {
-          print(state);
           if(state is LoginLoading) {
             return const Loading();
           }

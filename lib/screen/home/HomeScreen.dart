@@ -1,14 +1,22 @@
+import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/constants/FirebaseConstants.dart';
 import 'package:class_room_chin/screen/create_class/CreateClassroom.dart';
 import 'package:class_room_chin/screen/join_class/JoinClassroom.dart';
+import 'package:class_room_chin/screen/profile/ProfileScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,43 +25,34 @@ class HomeScreen extends StatelessWidget {
             return [
               SliverAppBar(
                 automaticallyImplyLeading: false,
-                expandedHeight: 250 + MediaQuery.of(context).padding.top,
+                expandedHeight: 150 + MediaQuery.of(context).padding.top,
                 backgroundColor: Colors.white,
                 flexibleSpace: FlexibleSpaceBar(
                   background: SafeArea(
                       child: InkWell(
-                    child: Ink(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(15)),
-                            child: Image.network(
-                              'https://media.npr.org/assets/img/2022/11/08/ap22312071681283-0d9c328f69a7c7f15320e8750d6ea447532dff66-s1100-c50.jpg',
-                              height: 100,
-                              width: 100,
-                              fit: BoxFit.cover,
-                            ),
+                        child: Ink(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+
+                              // const SizedBox(height: 20,),
+                              Text(
+                                'Hey ${FirebaseAuth.instance.currentUser?.displayName ?? ""}',
+                                style: const TextStyle(
+                                    fontSize: 30, fontWeight: FontWeight.bold),
+                              ),
+                              // const SizedBox(height: 20,),
+                              const Text(
+                                'Which skill are you looking to \nacquire today?',
+                                style: TextStyle(fontSize: 18),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
                           ),
-                          // const SizedBox(height: 20,),
-                          Text(
-                            'Hey ${FirebaseAuth.instance.currentUser?.displayName ?? ""}',
-                            style: const TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          ),
-                          // const SizedBox(height: 20,),
-                          const Text(
-                            'Which skill are you looking to \nacquire today?',
-                            style: TextStyle(fontSize: 18),
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                    ),
-                    onTap: () {},
-                  )),
+                        ),
+                        onTap: () {},
+                      )),
                   collapseMode: CollapseMode.pin,
                 ),
               ),
@@ -90,34 +89,57 @@ class HomeScreen extends StatelessWidget {
                         const SizedBox(
                           width: 20,
                         ),
+                        InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const ProfileScreen())).then((value){
+                                setState(() {
+
+                                });
+                              });
+                            },
+                            borderRadius: const BorderRadius.all(Radius.circular(25)),
+                            child: CustomImage(
+                              AUTH.currentUser?.photoURL ?? '',
+                              height: 50,
+                              width: 50,
+                              borderRadius: 25,
+                            )
+                        ),
+                        // const SizedBox(
+                        //   width: 20,
+                        // ),
                         IconButton(
                             onPressed: () {
                               showModalBottomSheet(
                                   context: context,
                                   builder: (_) => Container(
-                                        height: 200,
-                                        padding: const EdgeInsets.all(20),
-                                        child: Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            _bottomSheetButton(
-                                              onClick: (){
-                                                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const JoinClassroom()));
-                                              },
-                                              icon: Iconsax.add_circle,
-                                              text: 'Join classroom'
-                                            ),
-                                            _bottomSheetButton(
-                                                onClick: (){
-                                                  Navigator.of(context).push(MaterialPageRoute(builder: (_)=> CreateClassroom()));
-                                                },
-                                                icon: Iconsax.add_circle,
-                                                text: 'Create classroom'
-                                            ),
-                                          ],
-                                        ),
-                                      ));
+                                    height: 200,
+                                    padding: const EdgeInsets.all(20),
+                                    child: Column(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        _bottomSheetButton(
+                                            onClick: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                      const JoinClassroom()));
+                                            },
+                                            icon: Iconsax.add_circle,
+                                            text: 'Join classroom'),
+                                        _bottomSheetButton(
+                                            onClick: () {
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                      builder: (_) =>
+                                                          CreateClassroom()));
+                                            },
+                                            icon: Iconsax.add_circle,
+                                            text: 'Create classroom'),
+                                      ],
+                                    ),
+                                  ));
                             },
                             icon: const Icon(Iconsax.textalign_right))
                       ],
@@ -138,7 +160,7 @@ class HomeScreen extends StatelessWidget {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border:
-                    Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
+                Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
               ),
               child: InkWell(
                 onTap: () {},
@@ -175,8 +197,8 @@ class HomeScreen extends StatelessWidget {
                           'assets/images/education.svg',
                           fit: BoxFit.scaleDown,
                         )
-                        //Lottie.asset('lotties/${_lotties[index]}'),
-                        )
+                      //Lottie.asset('lotties/${_lotties[index]}'),
+                    )
                   ],
                 ),
               ),
@@ -185,9 +207,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  IconButton _bottomSheetButton({required Function onClick, required IconData icon, required String text}) {
+  IconButton _bottomSheetButton(
+      {required Function onClick,
+        required IconData icon,
+        required String text}) {
     return IconButton(
-      onPressed: ()=>onClick(),
+      onPressed: () => onClick(),
       icon: SizedBox(
         height: 50,
         width: double.infinity,
@@ -210,3 +235,4 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+

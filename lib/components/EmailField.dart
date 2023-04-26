@@ -5,8 +5,9 @@ import '../utils/Utils.dart';
 import 'CustomTextField.dart';
 
 class EmailField extends StatefulWidget {
-  const EmailField({Key? key, this.controller}) : super(key: key);
+  const EmailField({Key? key, this.controller, this.enable = true}) : super(key: key);
   final TextEditingController? controller;
+  final bool enable;
   @override
   State<EmailField> createState() => _EmailFieldState();
 }
@@ -20,6 +21,7 @@ class _EmailFieldState extends State<EmailField> {
     return CustomTextField(
       controller: widget.controller,
       hintText: 'Email',
+      enable: widget.enable,
       inputType: TextInputType.emailAddress,
       prefixIcon: const Icon(Icons.email_outlined),
       onChange: (value){

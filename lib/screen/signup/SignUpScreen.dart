@@ -92,7 +92,7 @@ class SignUpScreen extends StatelessWidget {
                               .then((value) {
                             if (value != null) {
                               _birthdayController.text =
-                                  '${value.day}/${value.month}/${value.year}';
+                                  '${value.month}/${value.day}/${value.year}';
                             }
                           });
                         },
