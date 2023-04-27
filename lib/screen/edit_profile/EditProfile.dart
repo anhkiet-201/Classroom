@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:class_room_chin/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
@@ -30,40 +29,49 @@ class _EditProfileState extends State<EditProfile> {
   final ImagePicker imagePicker = ImagePicker();
   XFile? _xFile;
 
+
+  @override
+  void initState() {
+    context.read<EditProfileBloc>().add(EditProfileFetch());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeWidgetAnimation(
         child: BlocConsumer<EditProfileBloc, EditProfileState>(
-          listener: (context,state){
-            if(state is EditProfileSuccess){
-              ShowSnackbar(context, title: "Error!", content: 'Update successful!');
-              Navigator.of(context).maybePop();
-            }
+      listener: (context, state) {
+        if (state is EditProfileSuccess) {
+          ShowSnackbar(context, title: "Error!", content: 'Update successful!');
+          Navigator.of(context).maybePop();
+        }
 
-            if(state is EditProfileFailure){
-              ShowSnackbar(context, title: "Error!", content: state.error);
-            }
-          },
-          listenWhen: (_,state){
-            return true;
-          },
-          builder: ( context, state) {
-            if(state is EditProfileLoading) {
-              return const Loading();
-            }
+        if (state is EditProfileFailure) {
+          ShowSnackbar(context, title: "Error!", content: state.error);
+        }
+      },
+      listenWhen: (_, state) {
+        return true;
+      },
+      builder: (context, state) {
+        if (state is EditProfileLoading) {
+          return const Loading();
+        }
 
-            if(state is EditProfileSuccess){
-              return const Loading();
-            }
+        if (state is EditProfileSuccess) {
+          return const Loading();
+        }
 
-            final user = (state as EditProfileFetched).user;
-            _birthdayController.text = user.birthday;
-            _emailController.text = user.email;
-            _usernameController.text = user.userName;
-            return _content(context);
-          },
-        )
-    );
+        if (state is EditProfileFetched) {
+          final user = state.user;
+          _birthdayController.text = user.birthday;
+          _emailController.text = user.email;
+          _usernameController.text = user.userName;
+        }
+
+        return _content(context);
+      },
+    ));
   }
 
   Widget _content(BuildContext context) {
@@ -82,6 +90,7 @@ class _EditProfileState extends State<EditProfile> {
                           height: 150,
                           width: 150,
                           fit: BoxFit.cover,
+                          borderRadius: 75,
                         )
                       : ClipRRect(
                           borderRadius:
@@ -149,9 +158,17 @@ class _EditProfileState extends State<EditProfile> {
           const SizedBox(
             height: 30,
           ),
-          CustomButton(text: 'Save', onClick: () {
-            context.read<EditProfileBloc>().add(EditProfileUpdate(Userrepostory(email: _emailController.text, userName: _usernameController.text, birthday: _birthdayController.text, img: '')));
-          }),
+          CustomButton(
+              text: 'Save',
+              onClick: () {
+                context.read<EditProfileBloc>().add(EditProfileUpdate(
+                    Userrepostory(
+                        email: _emailController.text,
+                        userName: _usernameController.text,
+                        birthday: _birthdayController.text,
+                        img: ''),
+                    _xFile == null ? null : File(_xFile!.path)));
+              }),
         ],
       ),
     );

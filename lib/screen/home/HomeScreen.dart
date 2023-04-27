@@ -1,4 +1,6 @@
+import 'package:class_room_chin/bloc/home/home_bloc.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
+import 'package:class_room_chin/components/CustomRefreshIndicator.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/constants/FirebaseConstants.dart';
 import 'package:class_room_chin/screen/create_class/CreateClassroom.dart';
@@ -6,8 +8,15 @@ import 'package:class_room_chin/screen/join_class/JoinClassroom.dart';
 import 'package:class_room_chin/screen/profile/ProfileScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import '../../components/Loading.dart';
+import '../../components/animation/ChangeWidgetAnimation.dart';
+import '../../models/Classroom.dart';
+import '../../utils/Utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -17,6 +26,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final RefreshController _refreshController = RefreshController();
+  List<Classroom> classrooms = [];
+
+
+  @override
+  void initState() {
+    context.read<HomeBloc>().add(HomeFetchRequest());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -124,7 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (_) =>
-                                                      const JoinClassroom()));
+                                                      const JoinClassroom()))
+                                                  .then((value)=>Navigator.maybePop(context));
                                             },
                                             icon: Iconsax.add_circle,
                                             text: 'Join classroom'),
@@ -133,7 +154,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
                                                       builder: (_) =>
-                                                          CreateClassroom()));
+                                                          CreateClassroom()))
+                                                  .then((value) => Navigator.maybePop(context));
                                             },
                                             icon: Iconsax.add_circle,
                                             text: 'Create classroom'),
@@ -150,61 +172,128 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ];
           },
-          body: ListView.builder(
-            physics: const BouncingScrollPhysics(),
-            itemCount: 10,
-            padding: const EdgeInsets.only(top: 0, bottom: 100),
-            itemBuilder: (context, index) => Container(
-              height: 160,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border:
-                Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
-              ),
-              child: InkWell(
-                onTap: () {},
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 6,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const [
-                            Expanded(
-                              child: Text(
-                                'state.classRoom[index].name',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+          body: ChangeWidgetAnimation(
+              child: BlocConsumer<HomeBloc, HomeState>(
+                listener: (context,state){
+                  // if(state is HomeFetchSuccessful){
+                  //
+                  // }
+
+                  if(state is HomeRefreshSuccessful){
+                    _refreshController.refreshCompleted();
+                    ShowSnackbar(context, title: "Notification!", content: 'Refresh Successful!');
+                  }
+
+                },
+                listenWhen: (_,state){
+                  return true;
+                },
+                builder: ( context, state) {
+                  if(state is HomeFetchLoading) {
+                    return const Loading();
+                  }
+
+                  if(state is HomeFetchFailure){
+                    return Text('fetch error');
+                  }
+
+                  if(state is HomeRefreshSuccessful){
+                    classrooms = state.classrooms;
+                  }
+
+                  if(state is HomeFetchSuccessful){
+                    classrooms = state.classrooms;
+                  }
+
+                  if(classrooms.isEmpty){
+                    return _refesh(
+                      child: Center(child: Text('Empty'))
+                    );
+                  }
+                  return _refesh(
+                    child:  _content(context, classrooms)
+                  );
+                },
+              )
+          )
+      ),
+    );
+  }
+
+  Widget _refesh({required Widget child}){
+    return RefreshConfiguration(
+      child: SmartRefresher(
+        header: CustomRefreshIndicator(),
+        controller: _refreshController,
+        child:child,
+        onRefresh: (){
+          context.read<HomeBloc>().add(HomeRefresh());
+        },
+      ),
+    );
+  }
+
+  ListView _content(BuildContext context, List<Classroom> classrooms) {
+    return ListView.builder(
+          physics: const BouncingScrollPhysics(),
+          itemCount: classrooms.length,
+          padding: const EdgeInsets.only(top: 0, bottom: 100),
+          itemBuilder: (context, index) => Container(
+            height: 160,
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border:
+              Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
+            ),
+            child: InkWell(
+              onTap: () {},
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 6,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              classrooms[index].className,
+                              style: const TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold
                               ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            Expanded(
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text('Tern: 1A\bLecturers:Match'),
-                              ),
-                            )
-                          ],
-                        ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Tern: ${classrooms[index].tern.isEmpty ? 'Unknown' : classrooms[index].tern}', maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                Text('Description: ${classrooms[index].description.isEmpty ? '...' : classrooms[index].description}',maxLines: 2, overflow: TextOverflow.ellipsis,)
+                              ],
+                            ),
+                          )
+                        ],
                       ),
                     ),
-                    Expanded(
-                        flex: 4,
-                        //child: SizedBox(),
-                        child: SvgPicture.asset(
-                          'assets/images/education.svg',
-                          fit: BoxFit.scaleDown,
-                        )
-                      //Lottie.asset('lotties/${_lotties[index]}'),
-                    )
-                  ],
-                ),
+                  ),
+                  Expanded(
+                      flex: 4,
+                      //child: SizedBox(),
+                      child: SvgPicture.asset(
+                        'assets/images/education.svg',
+                        fit: BoxFit.scaleDown,
+                      )
+                    //Lottie.asset('lotties/${_lotties[index]}'),
+                  )
+                ],
               ),
             ),
-          )),
-    );
+          ),
+        );
   }
 
   IconButton _bottomSheetButton(

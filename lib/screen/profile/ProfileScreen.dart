@@ -1,6 +1,8 @@
 import 'package:class_room_chin/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/screen/edit_profile/EditProfile.dart';
+import 'package:class_room_chin/screen/login/LoginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
@@ -52,7 +54,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               IconButton(
                   onPressed: () {
-                    context.read<EditProfileBloc>().add(EditProfileFetch());
                     Navigator.push(context,
                         MaterialPageRoute(builder: (_) => const EditProfile()))
                     .then((value){
@@ -63,7 +64,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   },
                   icon: const Icon(Iconsax.edit_2))
             ],
-          )
+          ),
+          const SizedBox(height: 30,),
+          CustomButton(text: 'Sign out', onClick: (){
+            AUTH.signOut()
+                .then((value){
+               Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_)=>LoginScreen()), (value)=>false);
+            });
+          })
         ],
       ),
     );

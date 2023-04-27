@@ -1,8 +1,8 @@
 
 
-import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
 
 import '../constants/Colors.dart';
 
@@ -53,3 +53,14 @@ ShowSnackbar(BuildContext context, {required String title, required String conte
       elevation: 0,
     )
 );
+
+String createClassID(){
+
+  const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  Random random = Random(DateTime.now().microsecond);
+  String result = '';
+  while(result.length < 8){
+    result += CHARS[random.nextInt(CHARS.length)];
+  }
+  return result;
+}

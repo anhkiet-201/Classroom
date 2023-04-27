@@ -1,4 +1,6 @@
+import 'package:class_room_chin/bloc/create_class/create_classroom_bloc.dart';
 import 'package:class_room_chin/bloc/edit_profile/edit_profile_bloc.dart';
+import 'package:class_room_chin/bloc/home/home_bloc.dart';
 import 'package:class_room_chin/bloc/login/login_bloc.dart';
 import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
@@ -16,7 +18,9 @@ class App extends StatelessWidget {
         providers: [
           BlocProvider(create: (_) => LoginBloc()),
           BlocProvider(create: (_) => SignUpBloc(),),
-          BlocProvider(create: (_) => EditProfileBloc())
+          BlocProvider(create: (_) => HomeBloc()),
+          BlocProvider(create: (_) => EditProfileBloc()),
+          BlocProvider(create: (_) => CreateClassroomBloc())
         ],
         child: MaterialApp(
           title: 'Flutter Demo',

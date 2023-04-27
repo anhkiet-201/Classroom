@@ -5,7 +5,9 @@ abstract class CreateClassroomEvent extends Equatable {
 }
 
 class CreateClassroomRequest extends CreateClassroomEvent{
+  final Classroom classroom;
+  const CreateClassroomRequest(this.classroom);
   @override
   // TODO: implement props
-  List<Object?> get props => throw UnimplementedError();
+  List<Object?> get props => [];
 }

@@ -13,8 +13,9 @@ class EditProfileFetch extends EditProfileEvent{
 class EditProfileUpdate extends EditProfileEvent{
 
   final Userrepostory user;
+  final File? file;
 
-  EditProfileUpdate(this.user);
+  EditProfileUpdate(this.user, this.file);
 
   @override
   // TODO: implement props

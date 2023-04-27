@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:class_room_chin/services/Userservice.dart';
 import 'package:equatable/equatable.dart';
@@ -25,7 +26,9 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   _updateData(EditProfileUpdate event){
     emit(EditProfileLoading());
-    updateUserData(onSuccess: () {
+    updateUserData(
+      file: event.file,
+      onSuccess: () {
       emit(EditProfileSuccess());
     }, onFailure: (error) {
       emit(EditProfileFailure(error));
