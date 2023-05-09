@@ -1,10 +1,9 @@
-import 'package:class_room_chin/bloc/edit_profile/edit_profile_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/screen/edit_profile/EditProfile.dart';
 import 'package:class_room_chin/screen/login/LoginScreen.dart';
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
 import '../../constants/FirebaseConstants.dart';
@@ -30,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 height: 150,
                 width: 150,
                 borderRadius: 80,
-              ),
+              ).subTag('avt'),
               const SizedBox(
                 width: 10,
               ),
@@ -38,11 +37,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      AUTH.currentUser?.displayName ?? '',
-                      style: Theme.of(context).textTheme.titleLarge,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Transform.scale(
+                      scale: 0.5,
+                      child: Text(
+                        AUTH.currentUser?.displayName ?? '',
+                        style: Theme.of(context).textTheme.titleLarge,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     Text(
                       AUTH.currentUser?.email ?? '',

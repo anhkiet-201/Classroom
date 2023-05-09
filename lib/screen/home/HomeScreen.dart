@@ -3,16 +3,18 @@ import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/CustomRefreshIndicator.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/constants/FirebaseConstants.dart';
+import 'package:class_room_chin/screen/class_details/ClassroomDetails.dart';
 import 'package:class_room_chin/screen/create_class/CreateClassroom.dart';
 import 'package:class_room_chin/screen/join_class/JoinClassroom.dart';
 import 'package:class_room_chin/screen/profile/ProfileScreen.dart';
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../../components/Loading.dart';
 import '../../components/animation/ChangeWidgetAnimation.dart';
 import '../../models/Classroom.dart';
@@ -29,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final RefreshController _refreshController = RefreshController();
   List<Classroom> classrooms = [];
-
 
   @override
   void initState() {
@@ -55,7 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             mainAxisSize: MainAxisSize.max,
                             children: [
-
                               // const SizedBox(height: 20,),
                               Text(
                                 'Hey ${FirebaseAuth.instance.currentUser?.displayName ?? ""}',
@@ -111,9 +111,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const ProfileScreen())).then((value){
+                              navigatorPush(context, const ProfileScreen()).then((value){
                                 setState(() {
-
                                 });
                               });
                             },
@@ -124,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 50,
                               borderRadius: 25,
                             )
+                            .mainTag('avt')
                         ),
                         // const SizedBox(
                         //   width: 20,
@@ -183,7 +183,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     _refreshController.refreshCompleted();
                     ShowSnackbar(context, title: "Notification!", content: 'Refresh Successful!');
                   }
-
                 },
                 listenWhen: (_,state){
                   return true;
@@ -238,61 +237,73 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const BouncingScrollPhysics(),
           itemCount: classrooms.length,
           padding: const EdgeInsets.only(top: 0, bottom: 100),
-          itemBuilder: (context, index) => Container(
-            height: 160,
-            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border:
-              Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
+          itemBuilder: (context, index) =>Slidable(
+            endActionPane: ActionPane(
+              motion: const ScrollMotion(),
+              children: [
+                SlidableAction(onPressed: (s){}, icon: Icons.edit,label: 'Edit',),
+                SlidableAction(onPressed: (s){}, icon: Icons.delete, label: 'Delete')
+              ],
             ),
-            child: InkWell(
-              onTap: () {},
-              child: Row(
-                children: [
-                  Expanded(
-                    flex: 6,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Text(
-                              classrooms[index].className,
-                              style: const TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.bold
+            child: Container(
+              height: 160,
+              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border:
+                Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
+              ),
+              child: InkWell(
+                onTap: () {
+                  chooseClass = classrooms[index];
+                  navigatorPush(context, ClassroomDetails());
+                },
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: 6,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                classrooms[index].className,
+                                style: const TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ).mainTag('title${classrooms[index].classID}'),
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Tern: ${classrooms[index].tern.isEmpty ? 'Unknown' : classrooms[index].tern}', maxLines: 1, overflow: TextOverflow.ellipsis,),
+                                  Text('Description: ${classrooms[index].description.isEmpty ? '...' : classrooms[index].description}',maxLines: 2, overflow: TextOverflow.ellipsis,)
+                                ],
                               ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Tern: ${classrooms[index].tern.isEmpty ? 'Unknown' : classrooms[index].tern}', maxLines: 1, overflow: TextOverflow.ellipsis,),
-                                Text('Description: ${classrooms[index].description.isEmpty ? '...' : classrooms[index].description}',maxLines: 2, overflow: TextOverflow.ellipsis,)
-                              ],
-                            ),
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  Expanded(
-                      flex: 4,
-                      //child: SizedBox(),
-                      child: SvgPicture.asset(
-                        'assets/images/education.svg',
-                        fit: BoxFit.scaleDown,
-                      )
-                    //Lottie.asset('lotties/${_lotties[index]}'),
-                  )
-                ],
+                    Expanded(
+                        flex: 4,
+                        //child: SizedBox(),
+                        child: SvgPicture.asset(
+                          'assets/images/education.svg',
+                          fit: BoxFit.scaleDown,
+                        ).mainTag('img${classrooms[index].classID}')
+                      //Lottie.asset('lotties/${_lotties[index]}'),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
+          )
         );
   }
 

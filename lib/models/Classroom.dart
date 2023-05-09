@@ -6,39 +6,41 @@ class Classroom {
   late final String tern;
   late final String description;
   late final String classOwner;
+  late final String img;
 
   Classroom(
       {required this.className,
       required this.classID,
       this.tern = 'null',
       this.description = 'null',
-      required this.classOwner});
+      required this.classOwner,
+      this.img = 'null'});
 
   Classroom.create(
       {required this.className,
       this.tern = 'null',
-      this.description= 'null',
-      required this.classOwner}) {
+      this.description = 'null',
+      required this.classOwner,
+      this.img = 'null'}) {
     classID = createClassID();
   }
 
-  Map<String, Object> toFirebaseObject(){
+  Map<String, Object> toFirebaseObject() {
     return {
       'classID': classID,
       'className': className,
       'tern': tern,
       'description': description,
-      'classOwner': classOwner
+      'classOwner': classOwner,
+      'img': img
     };
   }
 
-  Classroom.fromMap(Map<Object?, Object?> map){
+  Classroom.fromMap(Map<Object?, Object?> map) {
     classID = '${map['classID']}';
     className = '${map['className']}';
     tern = '${map['tern']}';
     description = '${map['description']}';
     classOwner = '${map['classOwner']}';
-
   }
-
 }
