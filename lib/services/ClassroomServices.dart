@@ -24,18 +24,19 @@ getClassList({required Function(List<Classroom>) onSuccess, required Function(St
   try{
     final listClassIDSnapShot = await DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('OWNER_CLASS').get();
     List<String> classIDs = [];
-    listClassIDSnapShot.children.forEach((element) {
+    for (var element in listClassIDSnapShot.children) {
       classIDs.add(element.key ?? '');
-    });
+    }
     final snapShot = await DATABASE.ref('CLASSROOM').get();
     List<Classroom> classrooms = [];
-    snapShot.children.forEach((element) {
+    for (var element in snapShot.children) {
       final map = element.value as Map<Object?, Object?>;
       Classroom classroom = Classroom.fromMap(map);
       if(classIDs.contains(classroom.classID)){
         classrooms.insert(0, classroom);
       }
-    });
+    }
+    classrooms.sort((c1, c2) => c2.time.compareTo(c1.time));
     onSuccess(classrooms);
   }on FirebaseException catch(e){
     onFailure(e.message ?? 'Error');

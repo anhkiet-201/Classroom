@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../constants/Colors.dart';
 
 class CustomImage extends StatelessWidget {
   const CustomImage(this.url,
@@ -40,7 +43,49 @@ class CustomImage extends StatelessWidget {
                 width: width,
                 fit: fit,
               ),
+              loadingBuilder: (_, child, progress){
+                return progress == null ? child : SizedBox(
+                  height: height,
+                  width: width,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                          LoadingAnimationWidget.twistingDots(
+                          size: (width ?? 1) / (height ?? 1) * 20,
+                          leftDotColor: primaryColor,
+                          rightDotColor: secondaryColor,
+                        ),
+                        Text(
+                          '${((progress.cumulativeBytesLoaded / progress.expectedTotalBytes!) * 100 ).roundToDouble()} %',
+                          style: TextStyle(
+                              fontSize: (width ?? 1) / (height ?? 1) * 10
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
           );
   }
 }
+
+class _ImgLodingText extends StatefulWidget {
+  const _ImgLodingText({Key? key}) : super(key: key);
+
+
+  @override
+  State<_ImgLodingText> createState() => _ImgLodingTextState();
+}
+
+class _ImgLodingTextState extends State<_ImgLodingText> {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'da'
+    );
+  }
+}
+

@@ -11,7 +11,7 @@ bool isValidEmail(String email) {
 }
 
 ShowSnackbar(BuildContext context,
-        {required String title, required String content}) =>
+        {required String title, required String content, bool closeButton = true}) =>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Container(
         padding: const EdgeInsets.all(16),
@@ -30,15 +30,18 @@ ShowSnackbar(BuildContext context,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, fontSize: 25),
                 ),
-                GestureDetector(
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.white,
-                    size: 24,
+                Visibility(
+                  visible: closeButton,
+                  child: GestureDetector(
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 24,
+                    ),
+                    onTap: () {
+                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    },
                   ),
-                  onTap: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                  },
                 )
               ],
             ),
@@ -69,15 +72,16 @@ Future<T?> navigatorPush<T>(BuildContext context, Widget target) =>
     Navigator.of(context).push<T>(PageRouteBuilder<T>(
         /// [opaque] set false, then the detail page can see the home page screen.
         opaque: false,
+        transitionDuration: const Duration(milliseconds: 100),
+        reverseTransitionDuration: const Duration(milliseconds: 100),
         fullscreenDialog: true,
         pageBuilder: (context, _, __) => target,
         transitionsBuilder: (context, animation, _, child) {
-          Animation<Offset> animationOffset = Tween<Offset>(begin: const Offset(0,-0.5), end:Offset.zero ).animate(animation);
-          return FadeTransition(
-            opacity: animation,
-            child: SlideTransition(
-              position: animationOffset,
-              child: child,
-            ),
+          //Animation<Offset> animationOffset = Tween<Offset>(begin: const Offset(0,-0.5), end:Offset.zero ).animate(animation);
+          return ScaleTransition(
+            scale: animation,
+            child: child,
           );
         }));
+
+//Future<T?> navigatorPush<T>(BuildContext context, Widget target) => Navigator.of(context).push(MaterialPageRoute(builder: (_)=>target));

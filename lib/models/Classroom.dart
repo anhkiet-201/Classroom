@@ -7,6 +7,7 @@ class Classroom {
   late final String description;
   late final String classOwner;
   late final String img;
+  late final int time;
 
   Classroom(
       {required this.className,
@@ -14,6 +15,7 @@ class Classroom {
       this.tern = 'null',
       this.description = 'null',
       required this.classOwner,
+        required this.time,
       this.img = 'null'});
 
   Classroom.create(
@@ -23,6 +25,7 @@ class Classroom {
       required this.classOwner,
       this.img = 'null'}) {
     classID = createClassID();
+    time = DateTime.now().millisecondsSinceEpoch;
   }
 
   Map<String, Object> toFirebaseObject() {
@@ -32,7 +35,8 @@ class Classroom {
       'tern': tern,
       'description': description,
       'classOwner': classOwner,
-      'img': img
+      'img': img,
+      'time': time
     };
   }
 
@@ -42,5 +46,7 @@ class Classroom {
     tern = '${map['tern']}';
     description = '${map['description']}';
     classOwner = '${map['classOwner']}';
+    img = '${map['img']}';
+    time = int.tryParse('${map['time']}') ?? 0;
   }
 }

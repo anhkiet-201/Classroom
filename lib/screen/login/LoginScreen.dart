@@ -98,7 +98,7 @@ class LoginScreen extends StatelessWidget {
                       CustomButton(
                         text: "Login",
                         onClick: () {
-                          context.read<LoginBloc>().add(LoginRequest(User( email:_emailController.text.trim(),password: _passController.text.trim())));
+                          context.read<LoginBloc>().add(LoginRequest(email:_emailController.text.trim(),password: _passController.text.trim()));
                         },
                       ),
                       Align(

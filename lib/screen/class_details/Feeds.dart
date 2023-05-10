@@ -1,7 +1,11 @@
+import 'package:class_room_chin/App.dart';
 import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
+import 'package:class_room_chin/components/MessageView.dart';
+import 'package:class_room_chin/components/PhotoView.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/models/Classroom.dart';
 import 'package:class_room_chin/screen/class_details/ClassroomDetails.dart';
+import 'package:class_room_chin/utils/Utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
@@ -129,26 +133,67 @@ class Feeds extends StatelessWidget {
                                 child: const Text('Reply this post.'),
                               ),
                               onTap: () {
-                                showModalBottomSheet(context: context, builder: (_){
-                                  return Container(
-                                    decoration: const BoxDecoration(
-                                        color: Colors.white,
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(20))
-                                    ),
-                                    child: ListView.builder(
-                                      itemBuilder: (_, index){
-                                        return Container(
-                                          margin: EdgeInsets.all(20),
-                                          padding: EdgeInsets.only(left: 20, top: 20, bottom: 20, right: 20),
-                                          child: Text('dsad'),
-                                          decoration: BoxDecoration(
-                                            color: Colors.grey.withOpacity(0.5)
+                                showModalBottomSheet(
+                                    context: context,
+                                    useRootNavigator: true,
+                                    isScrollControlled: true,
+                                    useSafeArea: true,
+                                    builder: (ct) {
+                                      return Stack(
+                                        children: [
+                                          Container(
+                                            decoration: const BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius: BorderRadius.vertical(
+                                                    top: Radius.circular(20))),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                SizedBox(
+                                                  height: 50,
+                                                  child: Center(
+                                                    child: Container(
+                                                      height: 5,
+                                                      width: 100,
+                                                      decoration: BoxDecoration(
+                                                          color: primaryColor,
+                                                          borderRadius: const BorderRadius.all(Radius.circular(5))
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Expanded(child: MessageView(mess)),
+                                                const SizedBox(height: 70,)
+                                              ],
+                                            ),
                                           ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                });
+                                          Positioned(
+                                            bottom: MediaQuery.of(ct).viewInsets.bottom,
+                                            child: Container(
+                                              padding: const EdgeInsets.symmetric(vertical: 10),
+                                              width: MediaQuery.of(context).size.width,
+                                              color: Colors.white,
+                                              child: Row(
+                                                children: [
+                                                  CustomImage(
+                                                    AUTH.currentUser?.photoURL ?? '',
+                                                    height: 30,
+                                                    width: 30,
+                                                    borderRadius: 25,
+                                                  ),
+                                                  const SizedBox(width: 10,),
+                                                  Expanded(
+                                                    child: TextFormField(),
+                                                  ),
+                                                  const SizedBox(width: 10,),
+                                                  TextButton(onPressed: (){}, child: Text('Send'))
+                                                ],
+                                              ),
+                                            )
+                                          )
+                                        ],
+                                      );
+                                    });
                               },
                             ),
                           )
@@ -191,9 +236,14 @@ class _ImagesSliderState extends State<ImagesSlider> {
               });
             },
             itemBuilder: (_, index) {
-              return Image.network(
-                widget.images[index],
-                fit: BoxFit.cover,
+              return GestureDetector(
+                child: CustomImage(
+                  widget.images[index],
+                  fit: BoxFit.cover,
+                ),
+                onTap: (){
+                  navigatorPush(context, PhotoView(widget.images[index]));
+                },
               );
             },
             itemCount: widget.images.length,
@@ -247,6 +297,7 @@ class _SeeMoreTextState extends State<SeeMoreText>
                 softWrap: true,
                 maxLines: _isExpanded ? null : 2,
                 overflow: _isExpanded ? null : TextOverflow.ellipsis,
+                textAlign: TextAlign.justify,
               ),
               if (!_isExpanded)
                 GestureDetector(

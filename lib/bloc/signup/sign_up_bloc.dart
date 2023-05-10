@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:class_room_chin/services/AuthService.dart';
 import 'package:equatable/equatable.dart';
 import 'package:class_room_chin/models/User.dart';
+import 'package:iconsax/iconsax.dart';
 import '../../utils/Utils.dart';
 
 part 'sign_up_event.dart';
@@ -20,7 +21,10 @@ class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
   _handleSignUp(SignUpRequest event) {
     emit(SignUpLoading());
     authService.signUpWithEmailAndPassword(
-        user: event.user,
+        email: event.email,
+        password: event.password,
+        userName: event.password,
+        birthday: event.birthday,
         onSuccess: () {
           emit(SignUpSuccess());
         },

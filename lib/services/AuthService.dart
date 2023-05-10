@@ -7,28 +7,28 @@ import '../utils/Utils.dart';
 
 class AuthService{
 
-  signUpWithEmailAndPassword({required User user, required Function onSuccess, required Function(String) onFailure}){
-    if (user.userName==null || user.userName!.isEmpty) {
+  signUpWithEmailAndPassword({required String email, required String password, required String userName, required String birthday, required Function onSuccess, required Function(String) onFailure}){
+    if (userName.isEmpty) {
       onFailure("Username can't be empty!");
       return;
     }
 
-    if (user.email.trim().isEmpty) {
+    if (email.trim().isEmpty) {
       onFailure("Email can't be empty!");
       return;
     }
 
-    if (user.password.trim().isEmpty) {
+    if (password.trim().isEmpty) {
       onFailure("Password can't be empty!");
       return;
     }
 
-    if (!isValidEmail(user.email.trim())) {
+    if (!isValidEmail(email.trim())) {
       onFailure("Invalid email!");
       return;
     }
 
-    if (user.password.length < 8) {
+    if (password.length < 8) {
       onFailure(
           "Password length is not enough. \nPassword must be at least 8 characters.!");
       return;
@@ -36,11 +36,11 @@ class AuthService{
 
     AUTH
         .createUserWithEmailAndPassword(
-            email: user.email.trim(), password: user.password.trim())
+            email: email.trim(), password: password.trim())
         .then((value) {
       if (value.user != null) {
-        value.user?.updateDisplayName(user.userName).then((value1) {
-          DATABASE.ref('USER').child(value.user!.uid).child('Birthday').set(user.birthday)
+        value.user?.updateDisplayName(userName).then((value1) {
+          DATABASE.ref('USER').child(value.user!.uid).child('Birthday').set(birthday)
               .then((value){
                 onSuccess();
           });
@@ -54,24 +54,24 @@ class AuthService{
 
   }
 
-  signInWithEmailAndPassword({required User user, required Function onSuccess, required Function(String) onFailure}){
+  signInWithEmailAndPassword({required String email, required String password, required Function onSuccess, required Function(String) onFailure}){
 
-    if (user.email.trim().isEmpty) {
+    if (email.trim().isEmpty) {
       onFailure("Email can't be empty!");
       return;
     }
 
-    if (user.password.trim().isEmpty) {
+    if (password.trim().isEmpty) {
       onFailure("Password can't be empty!");
       return;
     }
 
-    if (!isValidEmail(user.email.trim())) {
+    if (!isValidEmail(email.trim())) {
       onFailure("Invalid email!");
       return;
     }
 
-    AUTH.signInWithEmailAndPassword(email: user.email.trim(), password: user.password.trim())
+    AUTH.signInWithEmailAndPassword(email: email.trim(), password: password.trim())
         .then((value) {
       if(value.user == null){
         onFailure("Error");

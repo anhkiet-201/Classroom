@@ -1,14 +1,15 @@
 class User {
-  final String? userName;
+  final String userName;
   final String email;
-  final String password;
-  final String? birthday;
+  final String birthday;
+  final String img;
 
-  User(
-      {this.userName,
-      required this.email,
-      required this.password,
-      this.birthday});
+  const User({
+    required this.email,
+    required this.userName,
+    required this.img,
+    required this.birthday
+  });
 }
 
 

@@ -16,7 +16,6 @@ class CustomScaffoldWithAppbar extends StatelessWidget {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            automaticallyImplyLeading: false,
             expandedHeight: 150,
             pinned: true,
             leading: leading,

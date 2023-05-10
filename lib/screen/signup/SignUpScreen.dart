@@ -111,12 +111,10 @@ class SignUpScreen extends StatelessWidget {
                         onClick: () {
                           context.read<SignUpBloc>().add(
                               SignUpRequest(
-                                user: User(
-                                    email: _emailController.text.trim(),
-                                    password: _passController.text,
-                                    userName: _usernameController.text,
-                                    birthday: _birthdayController.text
-                                )
+                                  email: _emailController.text.trim(),
+                                  password: _passController.text,
+                                  username: _usernameController.text,
+                                  birthday: _birthdayController.text
                               )
                           );
                         },

@@ -42,7 +42,7 @@ class _EditProfileState extends State<EditProfile> {
         child: BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileSuccess) {
-          ShowSnackbar(context, title: "Error!", content: 'Update successful!');
+          ShowSnackbar(context, title: "Congratulations!", content: 'Update successful!');
           Navigator.of(context).maybePop();
         }
 

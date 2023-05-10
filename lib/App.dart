@@ -8,7 +8,9 @@ import 'package:class_room_chin/screen/login/LoginScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'components/MessageView.dart';
 import 'constants/Colors.dart';
+import 'models/Message.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
@@ -36,8 +38,35 @@ class App extends StatelessWidget {
               ),
               useMaterial3: true
           ),
-          home: FirebaseAuth.instance.currentUser == null ? LoginScreen() : const HomeScreen(),
+          home: FirebaseAuth.instance.currentUser == null ? LoginScreen() :  const HomeScreen(),
         )
     );
   }
 }
+
+final mess = [
+  Message.create(
+    uid: 'dsa',
+    content: 'test message',
+  ),
+  Message.create(
+    uid: 'dDBjG4EAjQeFTo8PEQ3Y8Nx1kWN2',
+    content: 'Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé Em bé em bé ',
+  ),
+  Message.create(
+    uid: 'dsa',
+    content: 'test message',
+  ),
+  Message.create(
+    uid: 'dDBjG4EAjQeFTo8PEQ3Y8Nx1kWN2',
+    content: 'test message',
+  ),
+  Message.create(
+    uid: 'dsa',
+    content: 'test message',
+  ),
+  Message.create(
+    uid: 'dsa',
+    content: 'test message',
+  ),
+];

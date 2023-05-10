@@ -5,12 +5,13 @@ abstract class LoginEvent extends Equatable {
 
 class LoginRequest extends LoginEvent{
 
-  final User user;
+  final String email;
+  final String password;
 
-  LoginRequest(this.user);
+  LoginRequest({required this.email, required this.password});
 
   @override
   // TODO: implement props
-  List<Object?> get props => [user];
+  List<Object?> get props => [email, password];
 
 }

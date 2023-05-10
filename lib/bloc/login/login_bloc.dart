@@ -15,7 +15,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   _handleLoginEvent(LoginRequest event) async {
     emit(LoginLoading());
     authService.signInWithEmailAndPassword(
-        user: event.user,
+        email: event.email,
+        password: event.password,
         onSuccess: () => emit(LoginSuccess()),
         onFailure: (error) => emit(LoginFailure(error)));
   }
