@@ -104,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   prefixIcon: Icon(Icons.search)),
                               textInputAction: TextInputAction.search,
                             ),
-                          ),
+                          ).mainTag('inputBar'),
                         ),
                         const SizedBox(
                           width: 20,
@@ -164,6 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ));
                             },
                             icon: const Icon(Iconsax.textalign_right))
+                        .mainTag('option')
                       ],
                     ),
                   ),
@@ -255,8 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  chooseClass = classrooms[index];
-                  navigatorPush(context, ClassroomDetails());
+                  navigatorPush(context, ClassroomDetails(classrooms[index]));
                 },
                 child: Row(
                   children: [
@@ -293,9 +293,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                         flex: 4,
                         //child: SizedBox(),
-                        child: SvgPicture.asset(
-                          'assets/images/education.svg',
-                          fit: BoxFit.scaleDown,
+                        child: Image.network(
+                          'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+                          fit: BoxFit.cover,
                         ).mainTag('img${classrooms[index].classID}')
                       //Lottie.asset('lotties/${_lotties[index]}'),
                     )

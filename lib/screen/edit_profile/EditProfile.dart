@@ -4,7 +4,7 @@ import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/EmailField.dart';
 import 'package:class_room_chin/constants/FirebaseConstants.dart';
-import 'package:class_room_chin/models/UserRepostory.dart';
+import 'package:class_room_chin/models/User.dart';
 import 'package:flutter/material.dart';
 import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -162,7 +162,7 @@ class _EditProfileState extends State<EditProfile> {
               text: 'Save',
               onClick: () {
                 context.read<EditProfileBloc>().add(EditProfileUpdate(
-                    Userrepostory(
+                    User(
                         email: _emailController.text,
                         userName: _usernameController.text,
                         birthday: _birthdayController.text,

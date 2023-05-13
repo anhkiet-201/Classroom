@@ -1,10 +1,8 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
+import 'package:class_room_chin/models/User.dart';
 import 'package:class_room_chin/services/Userservice.dart';
 import 'package:equatable/equatable.dart';
-import 'package:class_room_chin/models/UserRepostory.dart';
-
 part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 

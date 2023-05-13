@@ -10,9 +10,12 @@ extension HeroTag on Widget {
           final Hero toHero = toContext.widget as Hero;
           final Hero fromHero = fromcontext.widget as Hero;
           // Change push and pop animation.
-          return direction == HeroFlightDirection.push
-              ? toHero.child
-              : fromHero.child;
+          return Material(
+            color: Colors.transparent,
+            child: direction == HeroFlightDirection.push
+                ? toHero.child
+                : fromHero.child,
+          );
         },
       );
 

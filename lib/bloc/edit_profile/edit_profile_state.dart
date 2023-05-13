@@ -11,7 +11,7 @@ class EditProfileInitial extends EditProfileState {
 
 class EditProfileFetched extends EditProfileState{
 
-  final Userrepostory user;
+  final User user;
 
   EditProfileFetched(this.user);
 

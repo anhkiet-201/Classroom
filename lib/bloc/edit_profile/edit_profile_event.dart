@@ -12,7 +12,7 @@ class EditProfileFetch extends EditProfileEvent{
 
 class EditProfileUpdate extends EditProfileEvent{
 
-  final Userrepostory user;
+  final User user;
   final File? file;
 
   EditProfileUpdate(this.user, this.file);

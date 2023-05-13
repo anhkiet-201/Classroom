@@ -3,7 +3,6 @@ import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomTextField.dart';
 import 'package:class_room_chin/components/Loading.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
-import 'package:class_room_chin/models/User.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
 import 'package:class_room_chin/utils/Utils.dart';
 import 'package:flutter/material.dart';

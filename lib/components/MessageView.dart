@@ -1,7 +1,6 @@
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../constants/FirebaseConstants.dart';
 import '../models/Message.dart';
 import 'CustomImage.dart';
