@@ -1,3 +1,4 @@
+import 'package:class_room_chin/screen/about_class/AboutClassScreen.dart';
 import 'package:class_room_chin/screen/classroom_qr_share/ClassroomQrShare.dart';
 import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:class_room_chin/utils/Utils.dart';
@@ -13,15 +14,9 @@ import '../../constants/Colors.dart';
 import '../../constants/FirebaseConstants.dart';
 import '../../models/Classroom.dart';
 
-class ClassroomDetails extends StatefulWidget {
+class ClassroomDetails extends StatelessWidget {
   const ClassroomDetails(this.classroom, {Key? key}) : super(key: key);
   final Classroom classroom;
-
-  @override
-  State<ClassroomDetails> createState() => _ClassroomDetailsState();
-}
-
-class _ClassroomDetailsState extends State<ClassroomDetails> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +24,11 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverCollapsedAppbar(
-            titleText: widget.classroom.className,
+            titleText: classroom.className,
             background: Image.network(
               'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
               fit: BoxFit.cover,
-            ).subTag('img${widget.classroom.classID}'),
+            ).subTag('img${classroom.classID}'),
           ),
           SliverAppBar(
             surfaceTintColor: Colors.transparent,
@@ -60,7 +55,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                         decoration: BoxDecoration(
                             color: Colors.grey.withOpacity(0.2),
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
+                            const BorderRadius.all(Radius.circular(15))),
                         child: TextFormField(
                           maxLines: 1,
                           readOnly: true,
@@ -77,8 +72,8 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                       width: 10,
                     ),
                     IconButton(
-                            onPressed: () {_showClassBottomSheet(context);},
-                            icon: const Icon(Iconsax.textalign_right))
+                        onPressed: () {_showClassBottomSheet(context);},
+                        icon: const Icon(Iconsax.textalign_right))
                         .subTag('option')
                   ],
                 ),
@@ -190,7 +185,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
               decoration: const BoxDecoration(
                   color: Colors.white,
                   borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(20))),
+                  BorderRadius.vertical(top: Radius.circular(20))),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -203,7 +198,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                         decoration: BoxDecoration(
                             color: primaryColor,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
+                            const BorderRadius.all(Radius.circular(5))),
                       ),
                     ),
                   ),
@@ -234,8 +229,8 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                       Expanded(
                         child: TextFormField(
                           decoration: const InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Input your comment here...'
+                              border: InputBorder.none,
+                              hintText: 'Input your comment here...'
                           ),
                           maxLines: 3,
                           minLines: 1,
@@ -247,9 +242,9 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                       TextButton(
                           onPressed: () {},
                           child: Text(
-                          'Send',
+                            'Send',
                             style: TextStyle(
-                              fontWeight: FontWeight.bold
+                                fontWeight: FontWeight.bold
                             ),
                           )
                       )
@@ -289,7 +284,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                           size: 50,
                         ).mainTag('qr'),
                         onTap: (){
-                          navigatorPush(context, ClassroomQrShare(widget.classroom.classID));
+                          navigatorPush(context, ClassroomQrShare(classroom.classID));
                         },
                       ),
                     ),
@@ -299,16 +294,21 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
                 ),
                 const SizedBox(height: 10,),
                 Divider(color: primaryColor,thickness: 0.1,),
-                const SizedBox(
-                  height: 50,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Iconsax.info_circle),
-                      SizedBox(width: 10,),
-                      Text('About this class')
-                    ],
+                InkWell(
+                  child: const SizedBox(
+                    height: 50,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(Iconsax.info_circle),
+                        SizedBox(width: 10,),
+                        Text('About this class')
+                      ],
+                    ),
                   ),
+                  onTap: (){
+                    navigatorPush(context, AboutClassScreen(classroom));
+                  },
                 ),
                 const SizedBox(height: 10,),
               ],
@@ -384,3 +384,4 @@ class _ClassroomDetailsState extends State<ClassroomDetails> {
     );
   }
 }
+

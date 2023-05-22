@@ -4,61 +4,66 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../constants/FirebaseConstants.dart';
 
-fetchUserData({ required Function(User user) onSuccess, required Function(String) onFailure}){
+class UserServices {
 
-  DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('Birthday').get()
-      .then((snapShot){
-        if(snapShot.value != null){
-          final birthday = snapShot.value as String;
-          onSuccess(User(email: AUTH.currentUser!.email!, userName:AUTH.currentUser!.displayName!, img: AUTH.currentUser!.photoURL ?? '', birthday: birthday));
-        }else{
-          onFailure('Error during fetching data!');
-        }
-  }).onError((error, stackTrace){
-    onFailure('$error');
-  });
-}
+  static UserServices Instants = UserServices();
 
-updateUserData({required User user,  File? file ,required Function onSuccess, required Function(String) onFailure}) async {
+  fetchUserData({ required Function(User user) onSuccess, required Function(String) onFailure}){
 
-  if(user.userName.isEmpty){
-    onFailure("Username can't be empty!");
-    return;
-  }
-
-  if(file == null){
-    DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('Birthday').set(user.birthday)
-        .then((onValue){
-      AUTH.currentUser!.updateDisplayName(user.userName).
-      then((value){
-        onSuccess();
-      });
+    DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('Birthday').get()
+        .then((snapShot){
+      if(snapShot.value != null){
+        final birthday = snapShot.value as String;
+        onSuccess(User(email: AUTH.currentUser!.email!, userName:AUTH.currentUser!.displayName!, img: AUTH.currentUser!.photoURL ?? '', birthday: birthday));
+      }else{
+        onFailure('Error during fetching data!');
+      }
     }).onError((error, stackTrace){
       onFailure('$error');
     });
-    return;
   }
 
-  try {
+  updateUserData({required User user,  File? file ,required Function onSuccess, required Function(String) onFailure}) async {
 
-    final snapShot = await STORAGE.ref('USER').child('avatar/').putFile(file!).whenComplete((){});
-    snapShot.ref.getDownloadURL()
-        .then((url){
+    if(user.userName.isEmpty){
+      onFailure("Username can't be empty!");
+      return;
+    }
+
+    if(file == null){
       DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('Birthday').set(user.birthday)
           .then((onValue){
         AUTH.currentUser!.updateDisplayName(user.userName).
         then((value){
-          AUTH.currentUser!.updatePhotoURL(url)
-              .then((value){
-            onSuccess();
-          });
+          onSuccess();
         });
       }).onError((error, stackTrace){
         onFailure('$error');
       });
-    });
-  }on FirebaseException catch (e, s) {
-    onFailure(e.message ?? 'Error');
-  }
+      return;
+    }
 
+    try {
+
+      final snapShot = await STORAGE.ref('USER').child('avatar/').putFile(file!).whenComplete((){});
+      snapShot.ref.getDownloadURL()
+          .then((url){
+        DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('Birthday').set(user.birthday)
+            .then((onValue){
+          AUTH.currentUser!.updateDisplayName(user.userName).
+          then((value){
+            AUTH.currentUser!.updatePhotoURL(url)
+                .then((value){
+              onSuccess();
+            });
+          });
+        }).onError((error, stackTrace){
+          onFailure('$error');
+        });
+      });
+    }on FirebaseException catch (e, s) {
+      onFailure(e.message ?? 'Error');
+    }
+
+  }
 }

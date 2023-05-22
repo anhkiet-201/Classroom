@@ -9,13 +9,16 @@ part 'create_classroom_event.dart';
 part 'create_classroom_state.dart';
 
 class CreateClassroomBloc extends Bloc<CreateClassroomEvent, CreateClassroomState> {
+
+  ClassroomServices classroomServices = ClassroomServices.Instants;
+
   CreateClassroomBloc() : super(CreateClassroomInitial()) {
     on<CreateClassroomRequest>((event, emit) => _createClass(event));
   }
 
   _createClass(CreateClassroomRequest event){
     emit(CreateClassroomLoading());
-    createClassroom(classroom: event.classroom, onSuccess: (){
+    classroomServices.createClassroom(classroom: event.classroom, onSuccess: (){
       emit(CreateClassroomSuccessful());
     }, onFailure: (error){
       emit(CreateClassroomFailure(error));

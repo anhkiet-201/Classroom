@@ -7,6 +7,8 @@ import '../utils/Utils.dart';
 
 class AuthService{
 
+  static AuthService Instants = AuthService();
+
   signUpWithEmailAndPassword({required String email, required String password, required String userName, required String birthday, required Function onSuccess, required Function(String) onFailure}){
     if (userName.isEmpty) {
       onFailure("Username can't be empty!");
@@ -83,6 +85,5 @@ class AuthService{
     });
 
   }
-
 
 }

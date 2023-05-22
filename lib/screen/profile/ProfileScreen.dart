@@ -37,14 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Transform.scale(
-                      scale: 0.5,
-                      child: Text(
-                        AUTH.currentUser?.displayName ?? '',
-                        style: Theme.of(context).textTheme.titleLarge,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      AUTH.currentUser?.displayName ?? '',
+                      style: Theme.of(context).textTheme.titleLarge,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       AUTH.currentUser?.email ?? '',

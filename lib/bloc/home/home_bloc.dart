@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:class_room_chin/models/Classroom.dart';
 import 'package:class_room_chin/services/ClassroomServices.dart';
@@ -9,6 +7,9 @@ part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
+
+  ClassroomServices classroomServices = ClassroomServices.Instants;
+
   HomeBloc() : super(HomeInitial()) {
     on<HomeFetchRequest>((event, emit) => _classroomFetch());
     on<HomeRefresh>((event, emit) => _classroomRefesh());
@@ -16,7 +17,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _classroomFetch(){
     emit(HomeFetchLoading());
-    getClassList(onSuccess: (result){
+    classroomServices.getClassList(onSuccess: (result){
       emit(HomeFetchSuccessful(result));
     }, onFailure: (error){
       emit(HomeFetchFailure(error));
@@ -25,7 +26,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   _classroomRefesh(){
     emit(HomeRefreshLoading());
-    getClassList(onSuccess: (result){
+    classroomServices.getClassList(onSuccess: (result){
       emit(HomeRefreshSuccessful(result));
     }, onFailure: (error){
       emit(HomeRefreshFailure(error));

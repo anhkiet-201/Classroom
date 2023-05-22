@@ -11,7 +11,7 @@ bool isValidEmail(String email) {
 }
 
 ShowSnackbar(BuildContext context,
-        {required String title, required String content, bool closeButton = true}) =>
+        {required String title, required String content, bool closeButton = false}) =>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Container(
         padding: const EdgeInsets.all(16),

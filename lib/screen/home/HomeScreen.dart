@@ -293,10 +293,13 @@ class _HomeScreenState extends State<HomeScreen> {
                     Expanded(
                         flex: 4,
                         //child: SizedBox(),
-                        child: Image.network(
-                          'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
-                          fit: BoxFit.cover,
-                        ).mainTag('img${classrooms[index].classID}')
+                        child: AspectRatio(
+                          aspectRatio: 14/9,
+                          child: const CustomImage(
+                            'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
+                            fit: BoxFit.cover,
+                          ).mainTag('img${classrooms[index].classID}'),
+                        )
                       //Lottie.asset('lotties/${_lotties[index]}'),
                     )
                   ],

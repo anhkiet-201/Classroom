@@ -7,6 +7,9 @@ part 'edit_profile_event.dart';
 part 'edit_profile_state.dart';
 
 class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
+
+  UserServices userservices = UserServices.Instants;
+
   EditProfileBloc() : super(EditProfileInitial()) {
     on<EditProfileFetch>((event, emit) => _fetchData());
 
@@ -15,7 +18,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   _fetchData(){
     emit(EditProfileLoading());
-    fetchUserData(onSuccess: (user) {
+    userservices.fetchUserData(onSuccess: (user) {
       emit(EditProfileFetched(user));
     }, onFailure: (error) {
       emit(EditProfileFailure(error));
@@ -24,7 +27,7 @@ class EditProfileBloc extends Bloc<EditProfileEvent, EditProfileState> {
 
   _updateData(EditProfileUpdate event){
     emit(EditProfileLoading());
-    updateUserData(
+    userservices.updateUserData(
       file: event.file,
       onSuccess: () {
       emit(EditProfileSuccess());

@@ -43,6 +43,9 @@ class ClassroomQrShare extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 50),
             ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+            )
           ],
         ),
       )),

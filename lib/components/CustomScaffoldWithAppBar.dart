@@ -11,6 +11,7 @@ class CustomScaffoldWithAppbar extends StatelessWidget {
       this.leading,
       this.bottomNavigationBar,
       this.expandedHeight = 150,
+      this.actions,
       this.background})
       : super(key: key);
   final Widget child;
@@ -21,18 +22,20 @@ class CustomScaffoldWithAppbar extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final Widget? background;
   final double expandedHeight;
+  final List<Widget>? actions;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        //physics: const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
             expandedHeight: expandedHeight,
             pinned: true,
             leading: leading,
             stretch: true,
+            actions: actions,
             surfaceTintColor: Colors.white,
             flexibleSpace: FlexibleSpaceBar(
               title: tag != null
@@ -42,9 +45,8 @@ class CustomScaffoldWithAppbar extends StatelessWidget {
               background: background,
             ),
           ),
-          if (secondaryAppbars!=null)
-            for (final widget in secondaryAppbars!)
-              widget,
+          if (secondaryAppbars != null)
+            for (final widget in secondaryAppbars!) widget,
           SliverToBoxAdapter(
               child: Padding(
                   padding: const EdgeInsets.only(
