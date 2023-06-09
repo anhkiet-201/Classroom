@@ -35,7 +35,6 @@ class AuthService{
           "Password length is not enough. \nPassword must be at least 8 characters.!");
       return;
     }
-
     AUTH
         .createUserWithEmailAndPassword(
             email: email.trim(), password: password.trim())

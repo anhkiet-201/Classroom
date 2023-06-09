@@ -1,3 +1,4 @@
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -83,7 +84,6 @@ class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProv
               builder: (BuildContext context, Widget? child) {
                 return LinearProgressIndicator(
                   value: animation.value,
-                  backgroundColor: Colors.grey.withOpacity(0.5),
                 );
               },
             ),

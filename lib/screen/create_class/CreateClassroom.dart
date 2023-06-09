@@ -10,8 +10,8 @@ import 'package:iconsax/iconsax.dart';
 
 import '../../bloc/home/home_bloc.dart';
 import '../../components/Loading.dart';
+import '../../components/SnackBar.dart';
 import '../../components/animation/ChangeWidgetAnimation.dart';
-import '../../utils/Utils.dart';
 
 class CreateClassroom extends StatelessWidget {
   CreateClassroom({Key? key}) : super(key: key);
@@ -26,13 +26,13 @@ class CreateClassroom extends StatelessWidget {
         child: BlocConsumer<CreateClassroomBloc, CreateClassroomState>(
           listener: (context, state) {
             if (state is CreateClassroomSuccessful) {
-              ShowSnackbar(context, title: "Congratulations!", content: 'Create classroom successful!');
+              ShowSnackbar(context, type: SnackBarType.success, content: 'Create classroom successful!');
               context.read<HomeBloc>().add(HomeFetchRequest());
               Navigator.of(context).maybePop();
             }
 
             if (state is CreateClassroomFailure) {
-              ShowSnackbar(context, title: "Error!", content: state.error);
+              ShowSnackbar(context, type: SnackBarType.error, content: state.error);
             }
           },
           listenWhen: (_, state) {

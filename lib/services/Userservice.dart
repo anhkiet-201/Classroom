@@ -24,7 +24,6 @@ class UserServices {
   }
 
   updateUserData({required User user,  File? file ,required Function onSuccess, required Function(String) onFailure}) async {
-
     if(user.userName.isEmpty){
       onFailure("Username can't be empty!");
       return;
@@ -44,7 +43,6 @@ class UserServices {
     }
 
     try {
-
       final snapShot = await STORAGE.ref('USER').child('avatar/').putFile(file!).whenComplete((){});
       snapShot.ref.getDownloadURL()
           .then((url){

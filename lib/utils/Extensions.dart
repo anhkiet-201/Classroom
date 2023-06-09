@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 
 extension HeroTag on Widget {
@@ -23,4 +24,8 @@ extension HeroTag on Widget {
         tag: tag,
         child: this
       );
+}
+
+extension DynamicColor on BuildContext {
+  ColorScheme getDynamicColor() => Theme.of(this).colorScheme;
 }

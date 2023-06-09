@@ -2,10 +2,11 @@ import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 
 class SliverCollapsedAppbar extends StatefulWidget {
-  const SliverCollapsedAppbar({Key? key, this.expandedHeight = 250, this.background, required this.titleText}) : super(key: key);
+  const SliverCollapsedAppbar({Key? key, this.expandedHeight = 250, this.background, required this.titleText, this.leading}) : super(key: key);
   final double expandedHeight;
   final Widget? background;
   final String titleText;
+  final Widget? leading;
   @override
   State<SliverCollapsedAppbar> createState() => _SliverCollapsedAppbarState();
 }
@@ -18,25 +19,26 @@ class _SliverCollapsedAppbarState extends State<SliverCollapsedAppbar> {
       pinned: true,
       stretch: true,
       automaticallyImplyLeading: true,
-      surfaceTintColor: Colors.white,
+      leading: widget.leading,
       flexibleSpace: FlexibleSpaceBar(
         title: LayoutBuilder(
           builder: (context, constrain) {
-            var opacity = ((constrain.maxHeight -
+            var progress = ((constrain.maxHeight -
                 MediaQuery.of(context).padding.top - 39) /
                 100);
-            if (opacity > 1) {
-              opacity = 1.0;
+            if (progress > 1) {
+              progress = 1.0;
             }
-            return Stack(
-              children: [
-                Text(
-                  widget.titleText,
-                  style: const TextStyle(color: Colors.black, fontSize: 20),
-                ),
-                Text(widget.titleText,
-                    style: TextStyle(color: Colors.white.withOpacity(opacity), fontSize: 20))
-              ],
+            return Container(
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+              decoration: BoxDecoration(
+                color:  Color.lerp(context.getDynamicColor().onInverseSurface, context.getDynamicColor().onBackground, progress)!.withOpacity(0.6),
+                borderRadius: const BorderRadius.all(Radius.circular(10))
+              ),
+              child: Text(
+                widget.titleText,
+                style: TextStyle(color: Color.lerp(context.getDynamicColor().onBackground, context.getDynamicColor().background, progress), fontSize: 20),
+              ),
             );
           },
         ),

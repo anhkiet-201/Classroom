@@ -1,6 +1,5 @@
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:iconsax/iconsax.dart';
-
 import '../utils/Utils.dart';
 import 'CustomTextField.dart';
 
@@ -41,7 +40,7 @@ class _EmailFieldState extends State<EmailField> {
       },
       suffixIcon: Visibility(
         visible: _visiable,
-        child: _isValid ? const Icon(Icons.check, color: Colors.green,) : const Icon(Icons.close,color: Colors.redAccent,),
+        child: _isValid ? Icon(Icons.check, color: context.getDynamicColor().primary,) : Icon(Icons.close,color: context.getDynamicColor().error),
       ),
     );
   }

@@ -25,6 +25,15 @@ class ClassroomDetails extends StatelessWidget {
         slivers: [
           SliverCollapsedAppbar(
             titleText: classroom.className,
+            leading: IconButton(
+              onPressed: (){
+                Navigator.of(context).maybePop();
+              },
+              icon: const Icon(Icons.close),
+              style: IconButton.styleFrom(
+                  backgroundColor: context.getDynamicColor().onInverseSurface
+              ),
+            ),
             background: Image.network(
               'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
               fit: BoxFit.cover,
@@ -53,7 +62,7 @@ class ClassroomDetails extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: Colors.grey.withOpacity(0.2),
+                            color: context.getDynamicColor().surfaceVariant,
                             borderRadius:
                             const BorderRadius.all(Radius.circular(15))),
                         child: TextFormField(
@@ -98,7 +107,7 @@ class ClassroomDetails extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(50)),
-                                    border: Border.all(color: primaryColor)),
+                                    border: Border.all(color: context.getDynamicColor().onSurface)),
                                 child: CustomImage(
                                   AUTH.currentUser?.photoURL ?? '',
                                   height: 40,
@@ -147,7 +156,7 @@ class ClassroomDetails extends StatelessWidget {
                                       width: double.infinity,
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                          color: Colors.grey.withOpacity(0.2),
+                                          color: context.getDynamicColor().surfaceVariant,
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(8))),
                                       child: const Text('Reply this post.'),
@@ -176,32 +185,16 @@ class ClassroomDetails extends StatelessWidget {
   _showPostBottomSheet(BuildContext context) => showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      showDragHandle: true,
       useSafeArea: true,
       builder: (ct) {
         return Stack(
           children: [
-            Container(
+            Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(20))),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    height: 20,
-                    child: Center(
-                      child: Container(
-                        height: 5,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            color: primaryColor,
-                            borderRadius:
-                            const BorderRadius.all(Radius.circular(5))),
-                      ),
-                    ),
-                  ),
                   Expanded(child: MessageView(mess)),
                   const SizedBox(
                     height: 70,
@@ -214,7 +207,6 @@ class ClassroomDetails extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
                   child: Row(
                     children: [
                       CustomImage(
@@ -241,7 +233,7 @@ class ClassroomDetails extends StatelessWidget {
                       ),
                       TextButton(
                           onPressed: () {},
-                          child: Text(
+                          child: const Text(
                             'Send',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold

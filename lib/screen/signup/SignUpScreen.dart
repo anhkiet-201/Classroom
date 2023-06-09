@@ -2,9 +2,9 @@ import 'package:class_room_chin/bloc/signup/sign_up_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomTextField.dart';
 import 'package:class_room_chin/components/Loading.dart';
+import 'package:class_room_chin/components/SnackBar.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
 import 'package:class_room_chin/screen/home/HomeScreen.dart';
-import 'package:class_room_chin/utils/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../components/EmailField.dart';
@@ -21,7 +21,6 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('render');
     return ChangeWidgetAnimation(
         child: BlocConsumer<SignUpBloc, SignUpState>(
       listener: (context, state) {
@@ -30,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const HomeScreen()));
         }
         if (state is SignUpFailure) {
-          ShowSnackbar(context, title: "Error!", content: state.error);
+          ShowSnackbar(context, type: SnackBarType.error, content: state.error);
         }
       },
       listenWhen: (_, state) {
@@ -48,7 +47,6 @@ class SignUpScreen extends StatelessWidget {
   Scaffold _BuildContent(BuildContext context) {
     return Scaffold(
         appBar: AppBar(),
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(

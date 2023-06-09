@@ -1,6 +1,7 @@
 
 import 'package:class_room_chin/bloc/login/login_bloc.dart';
 import 'package:class_room_chin/components/CustomButton.dart';
+import 'package:class_room_chin/components/SnackBar.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/models/User.dart';
@@ -27,9 +28,8 @@ class LoginScreen extends StatelessWidget {
           if(state is LoginSuccess){
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_)=>const HomeScreen()));
           }
-
           if(state is LoginFailure){
-            ShowSnackbar(context, title: "Error!", content: state.error);
+            ShowSnackbar(context, type: SnackBarType.error, content: state.error);
           }
 
         },
@@ -48,7 +48,6 @@ class LoginScreen extends StatelessWidget {
 
   Scaffold _BuildContent(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -59,12 +58,12 @@ class LoginScreen extends StatelessWidget {
                   constraints: const BoxConstraints(maxWidth: 800),
                   child: Column(
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.topLeft,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Welcome,',
                               style: TextStyle(
                                   fontSize: 40,
@@ -76,7 +75,7 @@ class LoginScreen extends StatelessWidget {
                               'Sign in to continue,',
                               style: TextStyle(
                                   fontSize: 35,
-                                  color: primaryColor.withOpacity(0.6)),
+                              ),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 1,
                             )

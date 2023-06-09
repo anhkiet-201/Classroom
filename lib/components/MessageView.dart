@@ -1,4 +1,5 @@
 import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../constants/FirebaseConstants.dart';
@@ -11,18 +12,19 @@ class MessageView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: ListView.builder(
         reverse: true,
         itemCount: messages.length,
         itemBuilder: (_, index){
           final message = messages[index];
-          return message.uid == AUTH.currentUser!.uid ? _BMessage(message) : _AMessage(message);
+          return message.uid == AUTH.currentUser!.uid ? _BMessage(message, context) : _AMessage(message, context);
         },
       ),
     );
   }
 
-  Padding _AMessage(Message message) {
+  Padding _AMessage(Message message, BuildContext context) {
     final time = DateTime.fromMicrosecondsSinceEpoch(message.time);
     const radius = Radius.circular(20);
     return Padding(
@@ -41,7 +43,7 @@ class MessageView extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: Colors.grey.withOpacity(0.2),
+                    color: context.getDynamicColor().secondaryContainer,
                     borderRadius: const BorderRadius.only(
                         topLeft: radius,
                         topRight: radius,
@@ -51,6 +53,9 @@ class MessageView extends StatelessWidget {
                   child: Text(
                       message.content,
                     textAlign: TextAlign.justify,
+                    style: TextStyle(
+                      color: context.getDynamicColor().onSecondaryContainer,
+                    ),
                   ),
                 ),
               ),
@@ -68,7 +73,7 @@ class MessageView extends StatelessWidget {
         );
   }
 
-  Padding _BMessage(Message message) {
+  Padding _BMessage(Message message, BuildContext context) {
     final time = DateTime.fromMicrosecondsSinceEpoch(message.time);
     const radius = Radius.circular(20);
     return Padding(
@@ -90,7 +95,7 @@ class MessageView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: primaryColor,
+                  color: context.getDynamicColor().scrim,
                   borderRadius: const BorderRadius.only(
                     topLeft: radius,
                     topRight: radius,
@@ -100,9 +105,6 @@ class MessageView extends StatelessWidget {
               child: Text(
                   message.content,
                 textAlign: TextAlign.justify,
-                style: const TextStyle(
-                  color: Colors.white
-                ),
               ),
             ),
           ),

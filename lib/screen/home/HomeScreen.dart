@@ -1,6 +1,7 @@
 import 'package:class_room_chin/bloc/home/home_bloc.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/CustomRefreshIndicator.dart';
+import 'package:class_room_chin/components/SnackBar.dart';
 import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/constants/FirebaseConstants.dart';
 import 'package:class_room_chin/screen/class_details/ClassroomDetails.dart';
@@ -47,31 +48,25 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverAppBar(
                 automaticallyImplyLeading: false,
                 expandedHeight: 150 + MediaQuery.of(context).padding.top,
-                backgroundColor: Colors.white,
                 flexibleSpace: FlexibleSpaceBar(
                   background: SafeArea(
-                      child: InkWell(
-                        child: Ink(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              // const SizedBox(height: 20,),
-                              Text(
-                                'Hey ${FirebaseAuth.instance.currentUser?.displayName ?? ""}',
-                                style: const TextStyle(
-                                    fontSize: 30, fontWeight: FontWeight.bold),
-                              ),
-                              // const SizedBox(height: 20,),
-                              const Text(
-                                'Which skill are you looking to \nacquire today?',
-                                style: TextStyle(fontSize: 18),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          // const SizedBox(height: 20,),
+                          Text(
+                            'Hey ${FirebaseAuth.instance.currentUser?.displayName ?? ""}',
+                            style: const TextStyle(
+                                fontSize: 30, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                        onTap: () {},
+                          // const SizedBox(height: 20,),
+                          const Text(
+                            'Which skill are you looking to \nacquire today?',
+                            style: TextStyle(fontSize: 18),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
                       )),
                   collapseMode: CollapseMode.pin,
                 ),
@@ -93,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                                color: Colors.grey.withOpacity(0.2),
+                                color: context.getDynamicColor().surfaceVariant,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(15))),
                             child: TextFormField(
@@ -182,7 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if(state is HomeRefreshSuccessful){
                     _refreshController.refreshCompleted();
-                    ShowSnackbar(context, title: "Notification!", content: 'Refresh Successful!');
+                    ShowSnackbar(context, type: SnackBarType.notification, content: 'Refresh Successful!');
                   }
                 },
                 listenWhen: (_,state){
@@ -207,7 +202,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   if(classrooms.isEmpty){
                     return _refesh(
-                      child: Center(child: Text('Empty'))
+                      child: const Center(child: Text('Empty'))
                     );
                   }
                   return _refesh(
@@ -242,17 +237,17 @@ class _HomeScreenState extends State<HomeScreen> {
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
               children: [
-                SlidableAction(onPressed: (s){}, icon: Icons.edit,label: 'Edit',),
-                SlidableAction(onPressed: (s){}, icon: Icons.delete, label: 'Delete')
+                SlidableAction(onPressed: (s){}, icon: Icons.edit,label: 'Edit',backgroundColor: context.getDynamicColor().background,),
+                SlidableAction(onPressed: (s){}, icon: Icons.delete, label: 'Delete', backgroundColor: context.getDynamicColor().background,)
               ],
             ),
             child: Container(
               height: 160,
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                color: Colors.white,
-                border:
-                Border(bottom: BorderSide(color: primaryColor, width: 0.5)),
+                color: context.getDynamicColor().surfaceVariant,
+                borderRadius: const BorderRadius.all(Radius.circular(15))
               ),
               child: InkWell(
                 onTap: () {

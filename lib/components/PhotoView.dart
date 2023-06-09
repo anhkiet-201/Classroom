@@ -1,3 +1,4 @@
+import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -13,7 +14,7 @@ class PhotoView extends StatelessWidget {
         fit: StackFit.expand,
         children: [
           InteractiveViewer(
-            child: Image.network(url),
+            child: CustomImage(url, fit: BoxFit.contain,),
           ),
           SafeArea(
             child: Column(

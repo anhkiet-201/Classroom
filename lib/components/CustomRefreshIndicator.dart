@@ -1,4 +1,5 @@
 
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -38,8 +39,8 @@ class _CustomRefreshIndicator extends RefreshIndicatorState<CustomRefreshIndicat
           width: 50,
           child: LoadingAnimationWidget.twistingDots(
             size: 50,
-            leftDotColor: primaryColor,
-            rightDotColor: secondaryColor,
+            leftDotColor: context.getDynamicColor().primary,
+            rightDotColor: context.getDynamicColor().secondary,
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -53,8 +54,8 @@ class CustomImage extends StatelessWidget {
                       children: [
                         LoadingAnimationWidget.twistingDots(
                           size: (width ?? 1) / (height ?? 1) * 20,
-                          leftDotColor: primaryColor,
-                          rightDotColor: secondaryColor,
+                          leftDotColor: context.getDynamicColor().primary,
+                          rightDotColor: context.getDynamicColor().secondary,
                         ),
                         Text(
                           '${((progress.progress ?? 1) * 100).round()} %',

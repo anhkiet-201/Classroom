@@ -37,7 +37,6 @@ class AboutClassScreen extends StatelessWidget {
               )
           ),
           spacer,
-
         ],
       ),
     );

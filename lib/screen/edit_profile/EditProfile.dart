@@ -12,6 +12,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../components/CustomTextField.dart';
 import '../../components/Loading.dart';
+import '../../components/SnackBar.dart';
 import '../../components/animation/ChangeWidgetAnimation.dart';
 import '../../utils/Utils.dart';
 
@@ -42,12 +43,12 @@ class _EditProfileState extends State<EditProfile> {
         child: BlocConsumer<EditProfileBloc, EditProfileState>(
       listener: (context, state) {
         if (state is EditProfileSuccess) {
-          ShowSnackbar(context, title: "Congratulations!", content: 'Update successful!');
+          ShowSnackbar(context, type: SnackBarType.success, content: 'Update successful!');
           Navigator.of(context).maybePop();
         }
 
         if (state is EditProfileFailure) {
-          ShowSnackbar(context, title: "Error!", content: state.error);
+          ShowSnackbar(context, type: SnackBarType.error, content: state.error);
         }
       },
       listenWhen: (_, state) {
