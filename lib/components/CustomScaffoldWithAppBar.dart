@@ -1,4 +1,4 @@
-import 'package:class_room_chin/utils/Extensions.dart';
+import 'package:class_room_chin/extension/HeroTag.dart';
 import 'package:flutter/material.dart';
 
 class CustomScaffoldWithAppbar extends StatelessWidget {

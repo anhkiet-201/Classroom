@@ -1,20 +1,19 @@
-import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  const CustomTextField({
-    Key? key,
-    this.hintText,
-    this.controller,
-    this.obscureText=false,
-    this.inputType,
-    this.suffixIcon,
-    this.onChange,
-    this.prefixIcon,
-    this.enable = true,
-    this.readOnly = false,
-    this.onTap
-  }) : super(key: key);
+  const CustomTextField(
+      {Key? key,
+      this.hintText,
+      this.controller,
+      this.obscureText = false,
+      this.inputType,
+      this.suffixIcon,
+      this.onChange,
+      this.prefixIcon,
+      this.enable = true,
+      this.readOnly = false,
+      this.onTap})
+      : super(key: key);
 
   final String? hintText;
   final TextEditingController? controller;
@@ -31,8 +30,8 @@ class CustomTextField extends StatefulWidget {
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProviderStateMixin {
-
+class _CustomTextFieldState extends State<CustomTextField>
+    with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animationController;
   late Tween<double> tween;
@@ -40,15 +39,17 @@ class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProv
 
   @override
   void initState() {
-    animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
     tween = Tween<double>(begin: 0, end: 1);
-    animation = tween.animate(CurvedAnimation(parent: animationController, curve: Curves.easeIn));
+    animation = tween.animate(
+        CurvedAnimation(parent: animationController, curve: Curves.easeIn));
     super.initState();
     _focusNode = FocusNode();
     _focusNode.addListener(() {
-      if(_focusNode.hasFocus){
+      if (_focusNode.hasFocus) {
         animationController.forward();
-      }else{
+      } else {
         animationController.reverse();
       }
     });
@@ -64,12 +65,12 @@ class _CustomTextFieldState extends State<CustomTextField> with SingleTickerProv
           TextFormField(
             focusNode: _focusNode,
             decoration: InputDecoration(
-                hintText: widget.hintText,
-                border: InputBorder.none,
-                suffixIcon: widget.suffixIcon,
-                prefixIcon: widget.prefixIcon,
+              hintText: widget.hintText,
+              border: InputBorder.none,
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
             ),
-            onChanged: (value)=>widget.onChange?.call(value),
+            onChanged: (value) => widget.onChange?.call(value),
             keyboardType: widget.inputType,
             controller: widget.controller,
             obscureText: widget.obscureText,

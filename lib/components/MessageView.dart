@@ -1,7 +1,7 @@
-import 'package:class_room_chin/constants/Colors.dart';
-import 'package:class_room_chin/utils/Extensions.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
 import '../constants/FirebaseConstants.dart';
 import '../models/Message.dart';
 import 'CustomImage.dart';
@@ -95,7 +95,7 @@ class MessageView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: context.getDynamicColor().scrim,
+                  color: context.getDynamicColor().primaryContainer,
                   borderRadius: const BorderRadius.only(
                     topLeft: radius,
                     topRight: radius,
@@ -105,6 +105,9 @@ class MessageView extends StatelessWidget {
               child: Text(
                   message.content,
                 textAlign: TextAlign.justify,
+                style: TextStyle(
+                  color: context.getDynamicColor().onPrimaryContainer,
+                ),
               ),
             ),
           ),

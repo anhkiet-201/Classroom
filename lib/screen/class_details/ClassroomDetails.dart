@@ -1,9 +1,11 @@
+import 'package:class_room_chin/extension/DynamicColor.dart';
+import 'package:class_room_chin/extension/HeroTag.dart';
+import 'package:class_room_chin/extension/NavigatorContext.dart';
 import 'package:class_room_chin/screen/about_class/AboutClassScreen.dart';
 import 'package:class_room_chin/screen/classroom_qr_share/ClassroomQrShare.dart';
-import 'package:class_room_chin/utils/Extensions.dart';
-import 'package:class_room_chin/utils/Utils.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
+
 import '../../App.dart';
 import '../../components/CustomImage.dart';
 import '../../components/ImagesSlider.dart';
@@ -13,10 +15,12 @@ import '../../components/SliverCollapsedAppbar.dart';
 import '../../constants/Colors.dart';
 import '../../constants/FirebaseConstants.dart';
 import '../../models/Classroom.dart';
+import '../create_post/CreatePost.dart';
 
 class ClassroomDetails extends StatelessWidget {
   const ClassroomDetails(this.classroom, {Key? key}) : super(key: key);
   final Classroom classroom;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,13 +30,15 @@ class ClassroomDetails extends StatelessWidget {
           SliverCollapsedAppbar(
             titleText: classroom.className,
             leading: IconButton(
-              onPressed: (){
-                Navigator.of(context).maybePop();
+              onPressed: () {
+                context.finish();
               },
               icon: const Icon(Icons.close),
               style: IconButton.styleFrom(
-                  backgroundColor: context.getDynamicColor().onInverseSurface
-              ),
+                  backgroundColor: context
+                      .getDynamicColor()
+                      .onInverseSurface
+                      .withOpacity(0.8)),
             ),
             background: Image.network(
               'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
@@ -64,11 +70,11 @@ class ClassroomDetails extends StatelessWidget {
                         decoration: BoxDecoration(
                             color: context.getDynamicColor().surfaceVariant,
                             borderRadius:
-                            const BorderRadius.all(Radius.circular(15))),
+                                const BorderRadius.all(Radius.circular(15))),
                         child: TextFormField(
                           maxLines: 1,
                           readOnly: true,
-                          onTap: ()=>_showCreatePostBottomSheet(context),
+                          onTap: () => _showCreatePostBottomSheet(context),
                           decoration: const InputDecoration(
                               border: InputBorder.none,
                               hintText: 'Post a new post',
@@ -81,8 +87,10 @@ class ClassroomDetails extends StatelessWidget {
                       width: 10,
                     ),
                     IconButton(
-                        onPressed: () {_showClassBottomSheet(context);},
-                        icon: const Icon(Iconsax.textalign_right))
+                            onPressed: () {
+                              _showClassBottomSheet(context);
+                            },
+                            icon: const Icon(Iconsax.textalign_right))
                         .subTag('option')
                   ],
                 ),
@@ -107,7 +115,10 @@ class ClassroomDetails extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(50)),
-                                    border: Border.all(color: context.getDynamicColor().onSurface)),
+                                    border: Border.all(
+                                        color: context
+                                            .getDynamicColor()
+                                            .onSurface)),
                                 child: CustomImage(
                                   AUTH.currentUser?.photoURL ?? '',
                                   height: 40,
@@ -156,12 +167,14 @@ class ClassroomDetails extends StatelessWidget {
                                       width: double.infinity,
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
-                                          color: context.getDynamicColor().surfaceVariant,
+                                          color: context
+                                              .getDynamicColor()
+                                              .surfaceVariant,
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(8))),
                                       child: const Text('Reply this post.'),
                                     ),
-                                    onTap: ()=> _showPostBottomSheet(context),
+                                    onTap: () => _showPostBottomSheet(context),
                                   ),
                                 )
                               ],
@@ -205,7 +218,8 @@ class ClassroomDetails extends StatelessWidget {
             Positioned(
                 bottom: MediaQuery.of(ct).viewInsets.bottom,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     children: [
@@ -222,8 +236,7 @@ class ClassroomDetails extends StatelessWidget {
                         child: TextFormField(
                           decoration: const InputDecoration(
                               border: InputBorder.none,
-                              hintText: 'Input your comment here...'
-                          ),
+                              hintText: 'Input your comment here...'),
                           maxLines: 3,
                           minLines: 1,
                         ),
@@ -235,11 +248,8 @@ class ClassroomDetails extends StatelessWidget {
                           onPressed: () {},
                           child: const Text(
                             'Send',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold
-                            ),
-                          )
-                      )
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ))
                     ],
                   ),
                 ))
@@ -247,12 +257,12 @@ class ClassroomDetails extends StatelessWidget {
         );
       });
 
-  _showClassBottomSheet(BuildContext context){
+  _showClassBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
         showDragHandle: true,
         useRootNavigator: true,
-        builder: (context){
+        builder: (context) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -264,28 +274,36 @@ class ClassroomDetails extends StatelessWidget {
                       height: 75,
                       width: 75,
                       decoration: BoxDecoration(
-                          border: Border.all(
-                              color: primaryColor,
-                              width: 1
-                          ),
-                          borderRadius: const BorderRadius.all(Radius.circular(50))
-                      ),
+                          border: Border.all(color: primaryColor, width: 1),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(50))),
                       child: GestureDetector(
                         child: const Icon(
                           Icons.qr_code_rounded,
                           size: 50,
                         ).mainTag('qr'),
-                        onTap: (){
-                          navigatorPush(context, ClassroomQrShare(classroom.classID));
+                        onTap: () {
+                          context.startActivity(
+                              ClassroomQrShare(classroom.classID));
                         },
                       ),
                     ),
-                    const SizedBox(height: 5,),
-                    const Text('Share this class', style: TextStyle(fontWeight: FontWeight.bold),)
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    const Text(
+                      'Share this class',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )
                   ],
                 ),
-                const SizedBox(height: 10,),
-                Divider(color: primaryColor,thickness: 0.1,),
+                const SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  color: primaryColor,
+                  thickness: 0.1,
+                ),
                 InkWell(
                   child: const SizedBox(
                     height: 50,
@@ -293,29 +311,32 @@ class ClassroomDetails extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(Iconsax.info_circle),
-                        SizedBox(width: 10,),
+                        SizedBox(
+                          width: 10,
+                        ),
                         Text('About this class')
                       ],
                     ),
                   ),
-                  onTap: (){
-                    navigatorPush(context, AboutClassScreen(classroom));
+                  onTap: () {
+                    context.startActivity(AboutClassScreen(classroom));
                   },
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           );
-        }
-    );
+        });
   }
 
-  _showCreatePostBottomSheet(BuildContext context){
+  _showCreatePostBottomSheet(BuildContext context) {
     showModalBottomSheet(
         context: context,
         showDragHandle: true,
         useRootNavigator: true,
-        builder: (context){
+        builder: (context) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
@@ -326,54 +347,80 @@ class ClassroomDetails extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        Container(
-                          height: 75,
-                          width: 75,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: primaryColor,
-                                  width: 1
-                              ),
-                              borderRadius: const BorderRadius.all(Radius.circular(50))
+                        InkWell(
+                          child: Container(
+                            height: 75,
+                            width: 75,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: primaryColor, width: 1),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(50))),
+                            child: const Icon(
+                              Iconsax.edit,
+                              size: 50,
+                            ),
                           ),
-                          child: const Icon(
-                            Iconsax.edit,
-                            size: 50,
-                          ),
+                          onTap: () {
+                            context.startActivity(
+                                const CreatePost(
+                                  type: CreatePostType.normal,
+                                ),
+                                type: NavigatorType.slide,
+                                duration: const Duration(milliseconds: 300));
+                          },
                         ),
-                        const SizedBox(height: 5,),
-                        const Text('Create normal post', style: TextStyle(fontWeight: FontWeight.bold),)
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Create normal post',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     ),
                     Column(
                       children: [
-                        Container(
-                          height: 75,
-                          width: 75,
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: primaryColor,
-                                  width: 1
-                              ),
-                              borderRadius: const BorderRadius.all(Radius.circular(50))
+                        InkWell(
+                          child: Container(
+                            height: 75,
+                            width: 75,
+                            decoration: BoxDecoration(
+                                border:
+                                    Border.all(color: primaryColor, width: 1),
+                                borderRadius: const BorderRadius.all(
+                                    Radius.circular(50))),
+                            child: const Icon(
+                              Icons.face_unlock_rounded,
+                              size: 50,
+                            ),
                           ),
-                          child: const Icon(
-                            Icons.face_unlock_rounded,
-                            size: 50,
-                          ),
+                          onTap: () {
+                            context.startActivity(
+                                const CreatePost(
+                                  type: CreatePostType.attendance,
+                                ),
+                                type: NavigatorType.slide,
+                                duration: const Duration(milliseconds: 300));
+                          },
                         ),
-                        const SizedBox(height: 5,),
-                        const Text('Create attendance post', style: TextStyle(fontWeight: FontWeight.bold),)
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Text(
+                          'Create attendance post',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        )
                       ],
                     )
                   ],
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
               ],
             ),
           );
-        }
-    );
+        });
   }
 }
-

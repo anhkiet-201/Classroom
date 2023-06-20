@@ -1,9 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:class_room_chin/utils/Extensions.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-
-import '../constants/Colors.dart';
 
 class CustomImage extends StatelessWidget {
   const CustomImage(this.url,

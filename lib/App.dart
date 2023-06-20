@@ -39,7 +39,7 @@ class App extends StatelessWidget {
               colorScheme: darkColorScheme ?? _defaultDarkColorScheme,
               useMaterial3: true,
             ),
-            themeMode: ThemeMode.dark,
+            themeMode: ThemeMode.system,
             home: FirebaseAuth.instance.currentUser == null ? LoginScreen() :  const HomeScreen(),
           )
       );

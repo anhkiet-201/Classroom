@@ -1,10 +1,8 @@
 
-import 'package:class_room_chin/utils/Extensions.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/widgets.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-import '../constants/Colors.dart';
 
 class CustomRefreshIndicator extends RefreshIndicator{
 

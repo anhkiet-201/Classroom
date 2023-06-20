@@ -2,24 +2,24 @@ import 'package:class_room_chin/bloc/home/home_bloc.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/CustomRefreshIndicator.dart';
 import 'package:class_room_chin/components/SnackBar.dart';
-import 'package:class_room_chin/constants/Colors.dart';
 import 'package:class_room_chin/constants/FirebaseConstants.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
+import 'package:class_room_chin/extension/HeroTag.dart';
+import 'package:class_room_chin/extension/NavigatorContext.dart';
 import 'package:class_room_chin/screen/class_details/ClassroomDetails.dart';
 import 'package:class_room_chin/screen/create_class/CreateClassroom.dart';
 import 'package:class_room_chin/screen/join_class/JoinClassroom.dart';
 import 'package:class_room_chin/screen/profile/ProfileScreen.dart';
-import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import '../../components/Loading.dart';
 import '../../components/animation/ChangeWidgetAnimation.dart';
 import '../../models/Classroom.dart';
-import '../../utils/Utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -106,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         InkWell(
                             onTap: (){
-                              navigatorPush(context, const ProfileScreen()).then((value){
+                              context.startActivity(const ProfileScreen()).then((value){
                                 setState(() {
                                 });
                               });
@@ -251,7 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: InkWell(
                 onTap: () {
-                  navigatorPush(context, ClassroomDetails(classrooms[index]));
+                  context.startActivity(ClassroomDetails(classrooms[index]));
                 },
                 child: Row(
                   children: [

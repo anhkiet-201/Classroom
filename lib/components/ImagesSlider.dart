@@ -1,6 +1,5 @@
+import 'package:class_room_chin/extension/NavigatorContext.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/Utils.dart';
 import 'CustomImage.dart';
 import 'PhotoView.dart';
 
@@ -35,7 +34,7 @@ class _ImagesSliderState extends State<ImagesSlider> {
                   fit: BoxFit.cover,
                 ),
                 onTap: () {
-                  navigatorPush(context, PhotoView(widget.images[index]));
+                  context.startActivity(PhotoView(widget.images[index]));
                 },
               );
             },

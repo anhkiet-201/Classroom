@@ -1,5 +1,5 @@
 
-import 'package:class_room_chin/utils/Extensions.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/material.dart';
 
 enum SnackBarType {

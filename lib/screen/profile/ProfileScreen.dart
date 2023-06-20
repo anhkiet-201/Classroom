@@ -1,8 +1,8 @@
 import 'package:class_room_chin/components/CustomButton.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
+import 'package:class_room_chin/extension/HeroTag.dart';
 import 'package:class_room_chin/screen/edit_profile/EditProfile.dart';
 import 'package:class_room_chin/screen/login/LoginScreen.dart';
-import 'package:class_room_chin/utils/Extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
