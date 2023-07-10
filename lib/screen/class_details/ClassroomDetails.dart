@@ -6,7 +6,6 @@ import 'package:class_room_chin/screen/classroom_qr_share/ClassroomQrShare.dart'
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../App.dart';
 import '../../components/CustomImage.dart';
 import '../../components/ImagesSlider.dart';
 import '../../components/MessageView.dart';
@@ -208,7 +207,7 @@ class ClassroomDetails extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(child: MessageView(mess)),
+                  Expanded(child: SizedBox()),
                   const SizedBox(
                     height: 70,
                   )
