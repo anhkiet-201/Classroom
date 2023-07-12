@@ -55,6 +55,7 @@ dependencies:
   cached_network_image: ^3.2.3
   dynamic_color: ^1.6.5
   we_slide: ^2.4.0
+  permission_handler: ^10.4.2
 
 dev_dependencies:
   flutter_test:
