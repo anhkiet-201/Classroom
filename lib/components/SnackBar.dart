@@ -9,9 +9,9 @@ enum SnackBarType {
 
   Color getColor(BuildContext context){
     switch(this) {
-      case error: return context.getDynamicColor().error;
-      case success: return context.getDynamicColor().primary;
-      case notification: return context.getDynamicColor().primary;
+      case error: return context.getDynamicColor.error;
+      case success: return context.getDynamicColor.primary;
+      case notification: return context.getDynamicColor.primary;
     }
   }
 }

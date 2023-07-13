@@ -4,8 +4,9 @@ import 'package:permission_handler/permission_handler.dart';
 class PermissionManager {
   static final instants = PermissionManager();
 
-  Future<PermissionStatus> checkPermissionStatus({required PermissionManagerType type}) {
-    switch(type) {
+  Future<PermissionStatus> checkPermissionStatus(
+      {required PermissionManagerType type}) {
+    switch (type) {
       case PermissionManagerType.camera:
         return Permission.camera.status;
       case PermissionManagerType.micro:
@@ -17,9 +18,10 @@ class PermissionManager {
     }
   }
 
-  Future<PermissionStatus> requestPermission({required PermissionManagerType type}) async {
+  Future<PermissionStatus> requestPermission(
+      {required PermissionManagerType type}) async {
     final PermissionStatus result;
-    switch(type) {
+    switch (type) {
       case PermissionManagerType.camera:
         result = await Permission.camera.request();
       case PermissionManagerType.micro:
@@ -32,22 +34,20 @@ class PermissionManager {
     return result;
   }
 
-  requestPermissionIfNeed({required PermissionManagerType type, required Function(bool) onCompete}) async {
+  requestPermissionIfNeed(
+      {required PermissionManagerType type, Function(bool)? onCompete}) async {
     final status = await checkPermissionStatus(type: type);
-    switch(status) {
-      case PermissionStatus.denied:
-      case PermissionStatus.restricted:
-        final result = await requestPermission(type: type);
-        onCompete(result.isGranted);
+    switch (status) {
       case PermissionStatus.granted:
       case PermissionStatus.limited:
       case PermissionStatus.provisional:
-        onCompete(true);
+        onCompete?.call(true);
       case PermissionStatus.permanentlyDenied:
+      case PermissionStatus.denied:
+      case PermissionStatus.restricted:
         await openAppSettings();
         final result = await checkPermissionStatus(type: type).isGranted;
-        onCompete(result);
+        onCompete?.call(result);
     }
   }
-
 }

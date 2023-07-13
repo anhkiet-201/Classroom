@@ -1,6 +1,8 @@
+import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
 import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:class_room_chin/extension/HeroTag.dart';
 import 'package:class_room_chin/extension/NavigatorContext.dart';
+import 'package:class_room_chin/extension/Present.dart';
 import 'package:class_room_chin/screen/about_class/AboutClassScreen.dart';
 import 'package:class_room_chin/screen/classroom_qr_share/ClassroomQrShare.dart';
 import 'package:flutter/material.dart';
@@ -16,18 +18,24 @@ import '../../constants/FirebaseConstants.dart';
 import '../../models/Classroom.dart';
 import '../create_post/CreatePost.dart';
 
-class ClassroomDetails extends StatelessWidget {
+class ClassroomDetails extends StatefulWidget {
   const ClassroomDetails(this.classroom, {Key? key}) : super(key: key);
   final Classroom classroom;
 
   @override
-  Widget build(BuildContext context) {
+  State<ClassroomDetails> createState() => _ClassroomDetailsState();
+}
+
+class _ClassroomDetailsState extends State<ClassroomDetails> with Present<ClassroomDetails> {
+
+  @override
+  Widget body(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverCollapsedAppbar(
-            titleText: classroom.className,
+            titleText: widget.classroom.className,
             leading: IconButton(
               onPressed: () {
                 context.finish();
@@ -35,14 +43,14 @@ class ClassroomDetails extends StatelessWidget {
               icon: const Icon(Icons.close),
               style: IconButton.styleFrom(
                   backgroundColor: context
-                      .getDynamicColor()
+                      .getDynamicColor
                       .onInverseSurface
                       .withOpacity(0.8)),
             ),
             background: Image.network(
               'https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8dmlldG5hbXxlbnwwfHwwfHw%3D&w=1000&q=80',
               fit: BoxFit.cover,
-            ).subTag('img${classroom.classID}'),
+            ).subTag('img${widget.classroom.classID}'),
           ),
           SliverAppBar(
             surfaceTintColor: Colors.transparent,
@@ -67,9 +75,9 @@ class ClassroomDetails extends StatelessWidget {
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: context.getDynamicColor().surfaceVariant,
+                            color: context.getDynamicColor.surfaceVariant,
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(15))),
+                            const BorderRadius.all(Radius.circular(15))),
                         child: TextFormField(
                           maxLines: 1,
                           readOnly: true,
@@ -86,10 +94,10 @@ class ClassroomDetails extends StatelessWidget {
                       width: 10,
                     ),
                     IconButton(
-                            onPressed: () {
-                              _showClassBottomSheet(context);
-                            },
-                            icon: const Icon(Iconsax.textalign_right))
+                        onPressed: () {
+                          _showClassBottomSheet(context);
+                        },
+                        icon: const Icon(Iconsax.textalign_right))
                         .subTag('option')
                   ],
                 ),
@@ -116,7 +124,7 @@ class ClassroomDetails extends StatelessWidget {
                                         Radius.circular(50)),
                                     border: Border.all(
                                         color: context
-                                            .getDynamicColor()
+                                            .getDynamicColor
                                             .onSurface)),
                                 child: CustomImage(
                                   AUTH.currentUser?.photoURL ?? '',
@@ -167,7 +175,7 @@ class ClassroomDetails extends StatelessWidget {
                                       padding: const EdgeInsets.all(8),
                                       decoration: BoxDecoration(
                                           color: context
-                                              .getDynamicColor()
+                                              .getDynamicColor
                                               .surfaceVariant,
                                           borderRadius: const BorderRadius.all(
                                               Radius.circular(8))),
@@ -218,7 +226,7 @@ class ClassroomDetails extends StatelessWidget {
                 bottom: MediaQuery.of(ct).viewInsets.bottom,
                 child: Container(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   width: MediaQuery.of(context).size.width,
                   child: Row(
                     children: [
@@ -275,7 +283,7 @@ class ClassroomDetails extends StatelessWidget {
                       decoration: BoxDecoration(
                           border: Border.all(color: primaryColor, width: 1),
                           borderRadius:
-                              const BorderRadius.all(Radius.circular(50))),
+                          const BorderRadius.all(Radius.circular(50))),
                       child: GestureDetector(
                         child: const Icon(
                           Icons.qr_code_rounded,
@@ -283,7 +291,7 @@ class ClassroomDetails extends StatelessWidget {
                         ).mainTag('qr'),
                         onTap: () {
                           context.startActivity(
-                              ClassroomQrShare(classroom.classID));
+                              ClassroomQrShare(widget.classroom.classID));
                         },
                       ),
                     ),
@@ -318,7 +326,7 @@ class ClassroomDetails extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    context.startActivity(AboutClassScreen(classroom));
+                    context.startActivity(AboutClassScreen(widget.classroom));
                   },
                 ),
                 const SizedBox(
@@ -352,7 +360,7 @@ class ClassroomDetails extends StatelessWidget {
                             width: 75,
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: primaryColor, width: 1),
+                                Border.all(color: primaryColor, width: 1),
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(50))),
                             child: const Icon(
@@ -386,7 +394,7 @@ class ClassroomDetails extends StatelessWidget {
                             width: 75,
                             decoration: BoxDecoration(
                                 border:
-                                    Border.all(color: primaryColor, width: 1),
+                                Border.all(color: primaryColor, width: 1),
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(50))),
                             child: const Icon(
@@ -423,3 +431,4 @@ class ClassroomDetails extends StatelessWidget {
         });
   }
 }
+

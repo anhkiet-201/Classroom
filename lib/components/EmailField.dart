@@ -41,7 +41,7 @@ class _EmailFieldState extends State<EmailField> {
       },
       suffixIcon: Visibility(
         visible: _visiable,
-        child: _isValid ? Icon(Icons.check, color: context.getDynamicColor().primary,) : Icon(Icons.close,color: context.getDynamicColor().error),
+        child: _isValid ? Icon(Icons.check, color: context.getDynamicColor.primary,) : Icon(Icons.close,color: context.getDynamicColor.error),
       ),
     );
   }
