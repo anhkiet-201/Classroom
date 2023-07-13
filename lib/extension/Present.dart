@@ -7,9 +7,7 @@ mixin Present<T extends StatefulWidget> on State<T> {
   double _minHeight = 0;
 
   void setPresentMinHeight(double minHeight) {
-    setState(() {
-      _minHeight = minHeight;
-    });
+    _minHeight = minHeight;
   }
 
   void showPresent({required Widget content}) {
