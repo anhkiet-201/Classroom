@@ -4,6 +4,13 @@ import 'package:we_slide/we_slide.dart';
 mixin Present<T extends StatefulWidget> on State<T> {
   final WeSlideController _controller = WeSlideController();
   Widget? _present;
+  double _minHeight = 0;
+
+  void setPresentMinHeight(double minHeight) {
+    setState(() {
+      _minHeight = minHeight;
+    });
+  }
 
   void showPresent({required Widget content}) {
     setState(() {
@@ -36,7 +43,7 @@ mixin Present<T extends StatefulWidget> on State<T> {
           (MediaQuery.of(context).padding.top + 100),
       transformScale: true,
       transformScaleEnd: 0.9,
-      panelMinSize: 0,
+      panelMinSize: _minHeight,
       panelWidth: MediaQuery.of(context).size.width,
       panel: SizedBox(
         child: ClipRRect(
