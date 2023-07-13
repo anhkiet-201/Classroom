@@ -1,0 +1,4 @@
+enum ScanQrType {
+  live,
+  image;
+}

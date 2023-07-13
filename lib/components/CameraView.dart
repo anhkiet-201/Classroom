@@ -1,62 +1,47 @@
 import 'dart:io';
-
 import 'package:camera/camera.dart';
+import 'package:class_room_chin/constants/CameraInstants.dart';
 import 'package:class_room_chin/extension/Optional.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 
 class CameraView extends StatefulWidget {
-  const CameraView(
+  CameraView(
       {Key? key,
         this.customPaint,
         this.onImage,
-        this.onCameraFeedReady,
-        this.onDetectorViewModeChanged,
-        this.onCameraLensDirectionChanged,
         this.action,
-        this.initialCameraLensDirection = CameraLensDirection.back})
+        this.cameraInstants})
       : super(key: key);
   final CustomPaint? customPaint;
   final Function(InputImage inputImage)? onImage;
-  final VoidCallback? onCameraFeedReady;
-  final VoidCallback? onDetectorViewModeChanged;
-  final Function(CameraLensDirection direction)? onCameraLensDirectionChanged;
-  final CameraLensDirection initialCameraLensDirection;
   final Widget? action;
-  //static CameraController? controller;
+  CameraInstants? cameraInstants;
 
   @override
   State<CameraView> createState() => _CameraViewState();
 }
 
 class _CameraViewState extends State<CameraView> {
-  static List<CameraDescription> _cameras = [];
-  int _cameraIndex = -1;
   double _currentZoomLevel = 1.0;
   double _minAvailableZoom = 1.0;
   double _maxAvailableZoom = 1.0;
   var _flashMode = FlashMode.off;
   CameraController? _controller;
-
   @override
   void initState() {
     super.initState();
-
+    if(!widget.cameraInstants.guard) {
+      widget.cameraInstants = CameraInstants();
+    }
     _initialize();
   }
 
   void _initialize() async {
-    if (_cameras.isEmpty) {
-      _cameras = await availableCameras();
-    }
-    for (var i = 0; i < _cameras.length; i++) {
-      if (_cameras[i].lensDirection == widget.initialCameraLensDirection) {
-        _cameraIndex = i;
-        break;
-      }
-    }
-    if (_cameraIndex != -1) {
+    final result = await widget.cameraInstants?.initialize() ?? false;
+    if(result) {
+      _controller = widget.cameraInstants?.controller;
       _startLiveFeed();
     }
   }
@@ -73,7 +58,7 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Widget _liveFeedBody() {
-    if (_cameras.isEmpty) return Container();
+    if (widget.cameraInstants?.cameraList.isEmpty ?? false) return Container();
     if (_controller == null) return Container();
     if (_controller?.value.isInitialized == false) return Container();
     return Stack(
@@ -155,16 +140,6 @@ class _CameraViewState extends State<CameraView> {
   );
 
   Future _startLiveFeed() async {
-    final camera = _cameras[_cameraIndex];
-    _controller =  CameraController(
-      camera,
-      // Set to ResolutionPreset.high. Do NOT set it to ResolutionPreset.max because for some phones does NOT work.
-      ResolutionPreset.max,
-      enableAudio: false,
-      imageFormatGroup: Platform.isAndroid
-          ? ImageFormatGroup.nv21
-          : ImageFormatGroup.bgra8888,
-    );
     _controller?.initialize().then((_) {
       if (!mounted) {
         return;
@@ -177,12 +152,7 @@ class _CameraViewState extends State<CameraView> {
         _maxAvailableZoom = value;
       });
       _controller?.startImageStream(_processCameraImage).then((value) {
-        if (widget.onCameraFeedReady != null) {
-          widget.onCameraFeedReady!();
-        }
-        if (widget.onCameraLensDirectionChanged != null) {
-          widget.onCameraLensDirectionChanged!(camera.lensDirection);
-        }
+        /// need to replace
       });
       setState(() {});
     });
@@ -209,12 +179,11 @@ class _CameraViewState extends State<CameraView> {
 
   InputImage? _inputImageFromCameraImage(CameraImage image) {
     if (!_controller.guard) return null;
-
     // get image rotation
     // it is used in android to convert the InputImage from Dart to Java: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/android/src/main/java/com/google_mlkit_commons/InputImageConverter.java
     // `rotation` is not used in iOS to convert the InputImage from Dart to Obj-C: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/google_mlkit_commons/ios/Classes/MLKVisionImage%2BFlutterPlugin.m
     // in both platforms `rotation` and `camera.lensDirection` can be used to compensate `x` and `y` coordinates on a canvas: https://github.com/flutter-ml/google_ml_kit_flutter/blob/master/packages/example/lib/vision_detector_views/painters/coordinates_translator.dart
-    final camera = _cameras[_cameraIndex];
+    final camera = CameraInstants.currentCamera;
     final sensorOrientation = camera.sensorOrientation;
     // print(
     //     'lensDirection: ${camera.lensDirection}, sensorOrientation: $sensorOrientation, ${_controller?.value.deviceOrientation} ${_controller?.value.lockedCaptureOrientation} ${_controller?.value.isCaptureOrientationLocked}');

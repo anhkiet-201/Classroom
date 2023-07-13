@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:we_slide/we_slide.dart';
  
 mixin Present<T extends StatefulWidget> on State<T> {
@@ -43,10 +44,13 @@ mixin Present<T extends StatefulWidget> on State<T> {
       transformScaleEnd: 0.9,
       panelMinSize: _minHeight,
       panelWidth: MediaQuery.of(context).size.width,
-      panel: SizedBox(
-        child: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: _present),
+      panel: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(15)),
+        child: Material(
+          child: SizedBox(
+            child: _present,
+          ),
+        ),
       ),
       body: SizedBox(
         child: ClipRRect(
