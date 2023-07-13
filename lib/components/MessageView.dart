@@ -43,7 +43,7 @@ class MessageView extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(15),
                   decoration: BoxDecoration(
-                    color: context.getDynamicColor().secondaryContainer,
+                    color: context.getDynamicColor.secondaryContainer,
                     borderRadius: const BorderRadius.only(
                         topLeft: radius,
                         topRight: radius,
@@ -54,7 +54,7 @@ class MessageView extends StatelessWidget {
                       message.content,
                     textAlign: TextAlign.justify,
                     style: TextStyle(
-                      color: context.getDynamicColor().onSecondaryContainer,
+                      color: context.getDynamicColor.onSecondaryContainer,
                     ),
                   ),
                 ),
@@ -95,7 +95,7 @@ class MessageView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(15),
               decoration: BoxDecoration(
-                  color: context.getDynamicColor().primaryContainer,
+                  color: context.getDynamicColor.primaryContainer,
                   borderRadius: const BorderRadius.only(
                     topLeft: radius,
                     topRight: radius,
@@ -106,7 +106,7 @@ class MessageView extends StatelessWidget {
                   message.content,
                 textAlign: TextAlign.justify,
                 style: TextStyle(
-                  color: context.getDynamicColor().onPrimaryContainer,
+                  color: context.getDynamicColor.onPrimaryContainer,
                 ),
               ),
             ),

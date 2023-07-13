@@ -43,7 +43,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> with Present<Classr
               icon: const Icon(Icons.close),
               style: IconButton.styleFrom(
                   backgroundColor: context
-                      .getDynamicColor()
+                      .getDynamicColor
                       .onInverseSurface
                       .withOpacity(0.8)),
             ),
@@ -75,7 +75,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> with Present<Classr
                       child: Container(
                         padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
-                            color: context.getDynamicColor().surfaceVariant,
+                            color: context.getDynamicColor.surfaceVariant,
                             borderRadius:
                             const BorderRadius.all(Radius.circular(15))),
                         child: TextFormField(
@@ -124,7 +124,7 @@ class _ClassroomDetailsState extends State<ClassroomDetails> with Present<Classr
                                         Radius.circular(50)),
                                     border: Border.all(
                                         color: context
-                                            .getDynamicColor()
+                                            .getDynamicColor
                                             .onSurface)),
                                 child: CustomImage(
                                   AUTH.currentUser?.photoURL ?? '',
@@ -170,22 +170,18 @@ class _ClassroomDetailsState extends State<ClassroomDetails> with Present<Classr
                                 ),
                                 Expanded(
                                   child: InkWell(
-                                      child: Container(
-                                        width: double.infinity,
-                                        padding: const EdgeInsets.all(8),
-                                        decoration: BoxDecoration(
-                                            color: context
-                                                .getDynamicColor()
-                                                .surfaceVariant,
-                                            borderRadius: const BorderRadius.all(
-                                                Radius.circular(8))),
-                                        child: const Text('Reply this post.'),
-                                      ),
-                                      onTap:() => showPresent(
-                                        content: Container(
-                                          color: Colors.blue,
-                                        )
-                                      )
+                                    child: Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.all(8),
+                                      decoration: BoxDecoration(
+                                          color: context
+                                              .getDynamicColor
+                                              .surfaceVariant,
+                                          borderRadius: const BorderRadius.all(
+                                              Radius.circular(8))),
+                                      child: const Text('Reply this post.'),
+                                    ),
+                                    onTap: () => _showPostBottomSheet(context),
                                   ),
                                 )
                               ],

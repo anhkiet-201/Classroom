@@ -27,10 +27,10 @@ class ClassroomQrShare extends StatelessWidget {
                   border: Border.all(width: 1, color: primaryColor),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               child: QrImage(
-                data: data,
+                data: 'chinchin_classroom: $data',
                 eyeStyle: QrEyeStyle(
                     eyeShape: QrEyeShape.circle, color: primaryColor),
-              ).subTag('qr'),
+              ),
             ),
             Text(
               'Or use this code to join class:',

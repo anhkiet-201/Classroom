@@ -35,20 +35,19 @@ class PermissionManager {
   }
 
   requestPermissionIfNeed(
-      {required PermissionManagerType type,
-      required Function(bool) onCompete}) async {
+      {required PermissionManagerType type, Function(bool)? onCompete}) async {
     final status = await checkPermissionStatus(type: type);
     switch (status) {
       case PermissionStatus.granted:
       case PermissionStatus.limited:
       case PermissionStatus.provisional:
-        onCompete(true);
+        onCompete?.call(true);
       case PermissionStatus.permanentlyDenied:
       case PermissionStatus.denied:
       case PermissionStatus.restricted:
         await openAppSettings();
         final result = await checkPermissionStatus(type: type).isGranted;
-        onCompete(result);
+        onCompete?.call(result);
     }
   }
 }
