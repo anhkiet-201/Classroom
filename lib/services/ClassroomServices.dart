@@ -1,4 +1,5 @@
 
+import 'package:class_room_chin/extension/Optional.dart';
 import 'package:class_room_chin/models/Classroom.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -26,9 +27,13 @@ class ClassroomServices {
 
   getClassList({required Function(List<Classroom>) onSuccess, required Function(String) onFailure}) async {
     try{
-      final listClassIDSnapShot = await DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('OWNER_CLASS').get();
+      final listOwnClass = await DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('OWNER_CLASS').get();
       List<String> classIDs = [];
-      for (var element in listClassIDSnapShot.children) {
+      for (var element in listOwnClass.children) {
+        classIDs.add(element.key ?? '');
+      }
+      final listJoinClass = await DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('JOIN_CLASS').get();
+      for (var element in listJoinClass.children) {
         classIDs.add(element.key ?? '');
       }
       final snapShot = await DATABASE.ref('CLASSROOM').get();
@@ -42,6 +47,50 @@ class ClassroomServices {
       }
       classrooms.sort((c1, c2) => c2.time.compareTo(c1.time));
       onSuccess(classrooms);
+    }on FirebaseException catch(e){
+      onFailure(e.message ?? 'Error');
+    }
+  }
+
+  getClassById({required String id, required Function(Classroom) onSuccess, required Function(String) onFailure}) async {
+    try{
+      await DATABASE.ref('CLASSROOM').child(id).get()
+      .then((value) {
+        if(value.value == null) {
+          onFailure('Classroom does not exist!');
+          return;
+        }
+        final classroom = value.value as Map<Object?, Object?>;
+        onSuccess(Classroom.fromMap(classroom));
+      });
+    }on FirebaseException catch(e){
+      onFailure(e.message ?? 'Error');
+    }
+  }
+
+  joinClass({required Classroom classroom, required Function() onSuccess, required Function(String) onFailure}) {
+    try{
+      DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('OWNER_CLASS').child(classroom.classID).get()
+      .then((value) {
+        if(!value.value.guard) {
+          onFailure('You own this class!');
+          return;
+        } else {
+          DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('JOIN_CLASS').child(classroom.classID).get()
+              .then((value) {
+            if(!value.value.guard) {
+              onFailure('You have already joined!');
+              return;
+            } else {
+              DATABASE.ref('USER').child(AUTH.currentUser!.uid).child('JOIN_CLASS').child(classroom.classID)
+                  .set(classroom.className)
+                  .then((value) {
+                onSuccess();
+              });
+            }
+          });
+        }
+      });
     }on FirebaseException catch(e){
       onFailure(e.message ?? 'Error');
     }

@@ -56,7 +56,7 @@ extension NavigatorContext on BuildContext {
   }
 
   Future<T?> finish<T>([T? result]) async {
-    Navigator.of(this).maybePop();
+    Navigator.of(this).maybePop(result);
     return result;
   }
 
