@@ -1,3 +1,4 @@
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/material.dart';
 
 import '../constants/Colors.dart';
@@ -12,6 +13,7 @@ class Line extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = context.getDynamicColor.primary;
     return Row(
       children: [
         Expanded(

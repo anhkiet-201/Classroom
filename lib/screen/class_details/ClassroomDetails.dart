@@ -27,7 +27,7 @@ class ClassroomDetails extends StatefulWidget {
 }
 
 class _ClassroomDetailsState extends State<ClassroomDetails> with Present<ClassroomDetails> {
-
+  Color get primaryColor => context.getDynamicColor.primary;
   @override
   Widget body(BuildContext context) {
     return Scaffold(
