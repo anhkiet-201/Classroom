@@ -19,45 +19,48 @@ enum SnackBarType {
 ShowSnackbar(BuildContext context,
     {SnackBarType type = SnackBarType.success, required String content, bool closeButton = false}) =>
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Container(
-        padding: const EdgeInsets.all(16),
-        height: 125,
-        decoration: BoxDecoration(
-            color: type.getColor(context),
-            borderRadius: const BorderRadius.all(Radius.circular(15))),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  type.title,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                Visibility(
-                  visible: closeButton,
-                  child: GestureDetector(
-                    child: const Icon(
-                      Icons.close,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    },
+      content: Align(
+        alignment: Alignment.topCenter,
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          height: 125,
+          decoration: BoxDecoration(
+              color: type.getColor(context),
+              borderRadius: const BorderRadius.all(Radius.circular(15))),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    type.title,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 25),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Expanded(
-              child: Text(content),
-            )
-          ],
+                  Visibility(
+                    visible: closeButton,
+                    child: GestureDetector(
+                      child: const Icon(
+                        Icons.close,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                      onTap: () {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                      },
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
+              Expanded(
+                child: Text(content),
+              )
+            ],
+          ),
         ),
       ),
       backgroundColor: Colors.transparent,

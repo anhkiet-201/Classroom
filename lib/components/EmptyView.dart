@@ -15,12 +15,16 @@ class EmptyView extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                      context.getDynamicColor.primary, BlendMode.modulate),
-                  child: Lottie.asset('assets/lottie/empty-animation.json'),
+              SizedBox(
+                width: MediaQuery.of(context).size.width - 100,
+                height: MediaQuery.of(context).size.width - 100,
+                child: AspectRatio(
+                  aspectRatio: 1,
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                        context.getDynamicColor.primary, BlendMode.modulate),
+                    child: Lottie.asset('assets/lottie/empty-animation.json'),
+                  ),
                 ),
               ),
               if (text.guard)

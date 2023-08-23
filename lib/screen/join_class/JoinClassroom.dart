@@ -2,13 +2,13 @@ import 'package:class_room_chin/bloc/join_class/join_class_bloc.dart';
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/EmptyView.dart';
 import 'package:class_room_chin/components/Loading.dart';
+import 'package:class_room_chin/components/PresentWidget/present_widget.dart';
 import 'package:class_room_chin/components/SnackBar.dart';
 import 'package:class_room_chin/components/animation/ChangeWidgetAnimation.dart';
 import 'package:class_room_chin/constants/enum/PermissionManagerType.dart';
 import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:class_room_chin/extension/NavigatorContext.dart';
 import 'package:class_room_chin/extension/Optional.dart';
-import 'package:class_room_chin/extension/Present.dart';
 import 'package:class_room_chin/models/Classroom.dart';
 import 'package:class_room_chin/screen/scan_qr/ScanQRScreen.dart';
 import 'package:class_room_chin/utils/PermissionManager.dart';
@@ -29,48 +29,51 @@ class JoinClassroom extends StatefulWidget {
   State<JoinClassroom> createState() => _JoinClassroomState();
 }
 
-class _JoinClassroomState extends State<JoinClassroom>
-    with WidgetsBindingObserver, Present {
+class _JoinClassroomState extends State<JoinClassroom> {
   final TextEditingController _classIdController = TextEditingController();
   bool _scanQRClick = false;
   late final JoinClassBloc _bloc;
+  late final PresentController _presentController;
 
   @override
-  Widget body(BuildContext context) {
-    return CustomScaffoldWithAppbar(
-      title: 'Join class',
-      actions: [
-        IconButton(
-            onPressed: _qrScanButtonHandler,
-            icon: const Icon(Icons.qr_code_2_rounded))
-      ],
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 30,
-            ),
-            const Text(
-                'Use a classroom code of 5-7 letters and numbers, no spaces or symbols to join class',
-              style: TextStyle(
-                fontWeight: FontWeight.w600
-              ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            CustomTextField(
-              controller: _classIdController,
-              hintText: 'Class code',
-              prefixIcon: const Icon(Iconsax.main_component),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            CustomButton(text: 'OK', onClick: _showClassInfo)
+  Widget build(BuildContext context) {
+    return PresentWidget(
+        controller: _presentController,
+        child: CustomScaffoldWithAppbar(
+          title: 'Join class',
+          actions: [
+            IconButton(
+                onPressed: _qrScanButtonHandler,
+                icon: const Icon(Icons.qr_code_2_rounded))
           ],
-        ),
-      ),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 30,
+                ),
+                const Text(
+                  'Use a classroom code of 5-7 letters and numbers, no spaces or symbols to join class',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600
+                  ),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomTextField(
+                  controller: _classIdController,
+                  hintText: 'Class code',
+                  prefixIcon: const Icon(Iconsax.main_component),
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomButton(text: 'OK', onClick: _showClassInfo)
+              ],
+            ),
+          ),
+        )
     );
   }
 
@@ -118,7 +121,7 @@ class _JoinClassroomState extends State<JoinClassroom>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CustomButton(text: 'Cancel', onClick: () {hidePresent();}),
+            CustomButton(text: 'Cancel', onClick: () {_presentController.hidePresent();}),
             CustomButton(text: 'Join class', onClick: () {_bloc.joinClass(classroom);})
           ],
         ),
@@ -136,7 +139,7 @@ class _JoinClassroomState extends State<JoinClassroom>
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: CustomButton(text: 'Close', onClick: hidePresent),
+          child: CustomButton(text: 'Close', onClick: _presentController.hidePresent),
         ),
         const SizedBox(height: 50,)
       ],
@@ -154,19 +157,9 @@ class _JoinClassroomState extends State<JoinClassroom>
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     _bloc = JoinClassBloc();
+    _presentController = PresentController();
     super.initState();
-  }
-
-  @override
-  void onHidePresent() {
-    print('Hide');
-  }
-
-  @override
-  void onShowPresent() {
-    print('Show');
   }
 
 }
@@ -203,14 +196,17 @@ extension on _JoinClassroomState {
 
   _onReceiveClassID(String? classID) {
     if(_classIdController.guard) {
-      _classIdController.text = classID!;
+      setState(() {
+        _classIdController.text = classID!;
+      });
     }
   }
 
   _showClassInfo() {
+    FocusScope.of(context).requestFocus(FocusNode());
     if(_classIdController.text.isNotEmpty && _classIdController.text.length > 7) {
       _bloc.showClassInfo(_classIdController.text);
-      showPresent(content: _classInfo());
+      _presentController.showPresent(content: _classInfo());
     } else {
       ShowSnackbar(
           context
@@ -228,8 +224,13 @@ extension on _JoinClassroomState {
           listenWhen: (_, __) => true,
           listener: (_, state) {
             if(state == JoinClassState.joinError) {
-              hidePresent();
+             _presentController.hidePresent();
               ShowSnackbar(context, content: _bloc.error, type: SnackBarType.error);
+            }
+            if(state == JoinClassState.loading) {
+              _presentController.dismissible = false;
+            } else {
+              _presentController.dismissible = true;
             }
           },
           builder: (_, state) {
