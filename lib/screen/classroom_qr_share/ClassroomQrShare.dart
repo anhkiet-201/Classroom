@@ -1,4 +1,5 @@
 import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:class_room_chin/extension/HeroTag.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -9,6 +10,7 @@ class ClassroomQrShare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = context.getDynamicColor.secondary;
     return Scaffold(
       appBar: AppBar(),
       body: SafeArea(
@@ -27,10 +29,11 @@ class ClassroomQrShare extends StatelessWidget {
                   border: Border.all(width: 1, color: primaryColor),
                   borderRadius: const BorderRadius.all(Radius.circular(20))),
               child: QrImage(
-                data: data,
-                eyeStyle: QrEyeStyle(
-                    eyeShape: QrEyeShape.circle, color: primaryColor),
-              ).subTag('qr'),
+                data: 'chinchin_classroom: $data',
+                eyeStyle: const QrEyeStyle(
+                    eyeShape: QrEyeShape.square),
+                foregroundColor: primaryColor,
+              ),
             ),
             Text(
               'Or use this code to join class:',

@@ -88,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             padding: const EdgeInsets.all(5),
                             decoration: BoxDecoration(
-                                color: context.getDynamicColor().surfaceVariant,
+                                color: context.getDynamicColor.surfaceVariant,
                                 borderRadius: const BorderRadius.all(
                                     Radius.circular(15))),
                             child: TextFormField(
@@ -138,8 +138,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             onClick: () {
                                               Navigator.of(context).push(
                                                   MaterialPageRoute(
-                                                      builder: (_) =>
-                                                      const JoinClassroom()))
+                                                      builder: (_) => JoinClassroom()))
                                                   .then((value)=>Navigator.maybePop(context));
                                             },
                                             icon: Iconsax.add_circle,
@@ -237,8 +236,8 @@ class _HomeScreenState extends State<HomeScreen> {
             endActionPane: ActionPane(
               motion: const ScrollMotion(),
               children: [
-                SlidableAction(onPressed: (s){}, icon: Icons.edit,label: 'Edit',backgroundColor: context.getDynamicColor().background,),
-                SlidableAction(onPressed: (s){}, icon: Icons.delete, label: 'Delete', backgroundColor: context.getDynamicColor().background,)
+                SlidableAction(onPressed: (s){}, icon: Icons.edit,label: 'Edit',backgroundColor: context.getDynamicColor.background,),
+                SlidableAction(onPressed: (s){}, icon: Icons.delete, label: 'Delete', backgroundColor: context.getDynamicColor.background,)
               ],
             ),
             child: Container(
@@ -246,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               decoration: BoxDecoration(
-                color: context.getDynamicColor().surfaceVariant,
+                color: context.getDynamicColor.surfaceVariant,
                 borderRadius: const BorderRadius.all(Radius.circular(15))
               ),
               child: InkWell(

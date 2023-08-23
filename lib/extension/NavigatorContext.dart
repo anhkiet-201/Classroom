@@ -3,7 +3,9 @@ import 'package:flutter/widgets.dart';
 
 enum NavigatorType {
   fade,
-  slide;
+  slide,
+  scale,
+  normal;
 
   Widget builder(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
@@ -19,14 +21,27 @@ enum NavigatorType {
               begin: const Offset(1, 0), end: const Offset(0, 0))),
           child: child,
         );
+      case scale:
+        return ScaleTransition(
+          scale: animation,
+          child: child,
+        );
+      case normal:
+        return ScaleTransition(
+          scale: animation,
+          child: FadeTransition(
+            opacity: animation,
+            child: child,
+          ),
+        );
     }
   }
 }
 
 extension NavigatorContext on BuildContext {
   Future<T?> startActivity<T>(Widget target,
-      {NavigatorType type = NavigatorType.fade,
-      Duration duration = const Duration(milliseconds: 500)}) {
+      {NavigatorType type = NavigatorType.normal,
+      Duration duration = const Duration(milliseconds: 300)}) {
     ScaffoldMessenger.maybeOf(this)
       ?..hideCurrentSnackBar()
       ..hideCurrentMaterialBanner();
@@ -41,7 +56,7 @@ extension NavigatorContext on BuildContext {
   }
 
   Future<T?> finish<T>([T? result]) async {
-    Navigator.of(this).maybePop();
+    Navigator.of(this).maybePop(result);
     return result;
   }
 

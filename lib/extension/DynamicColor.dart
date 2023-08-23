@@ -1,6 +1,5 @@
-
 import 'package:flutter/material.dart';
 
 extension DynamicColor on BuildContext {
-  ColorScheme getDynamicColor() => Theme.of(this).colorScheme;
+  ColorScheme get getDynamicColor => Theme.of(this).colorScheme;
 }

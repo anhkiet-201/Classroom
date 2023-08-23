@@ -37,8 +37,8 @@ class _CustomRefreshIndicator extends RefreshIndicatorState<CustomRefreshIndicat
           width: 50,
           child: LoadingAnimationWidget.twistingDots(
             size: 50,
-            leftDotColor: context.getDynamicColor().primary,
-            rightDotColor: context.getDynamicColor().secondary,
+            leftDotColor: context.getDynamicColor.primary,
+            rightDotColor: context.getDynamicColor.secondary,
           ),
         ),
       ),

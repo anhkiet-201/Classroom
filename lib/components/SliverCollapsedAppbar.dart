@@ -32,12 +32,12 @@ class _SliverCollapsedAppbarState extends State<SliverCollapsedAppbar> {
             return Container(
               padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
               decoration: BoxDecoration(
-                color:  Color.lerp(context.getDynamicColor().onInverseSurface, context.getDynamicColor().onBackground, progress)!.withOpacity(0.6),
+                color:  Color.lerp(context.getDynamicColor.onInverseSurface, context.getDynamicColor.onBackground, progress)!.withOpacity(0.6),
                 borderRadius: const BorderRadius.all(Radius.circular(10))
               ),
               child: Text(
                 widget.titleText,
-                style: TextStyle(color: Color.lerp(context.getDynamicColor().onBackground, context.getDynamicColor().background, progress), fontSize: 20),
+                style: TextStyle(color: Color.lerp(context.getDynamicColor.onBackground, context.getDynamicColor.background, progress), fontSize: 20),
               ),
             );
           },

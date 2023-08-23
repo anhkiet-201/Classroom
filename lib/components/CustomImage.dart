@@ -52,8 +52,8 @@ class CustomImage extends StatelessWidget {
                       children: [
                         LoadingAnimationWidget.twistingDots(
                           size: (width ?? 1) / (height ?? 1) * 20,
-                          leftDotColor: context.getDynamicColor().primary,
-                          rightDotColor: context.getDynamicColor().secondary,
+                          leftDotColor: context.getDynamicColor.primary,
+                          rightDotColor: context.getDynamicColor.secondary,
                         ),
                         Text(
                           '${((progress.progress ?? 1) * 100).round()} %',

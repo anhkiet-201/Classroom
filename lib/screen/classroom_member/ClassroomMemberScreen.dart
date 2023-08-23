@@ -1,6 +1,7 @@
 import 'package:class_room_chin/components/CustomImage.dart';
 import 'package:class_room_chin/components/CustomScaffoldWithAppBar.dart';
 import 'package:class_room_chin/constants/Colors.dart';
+import 'package:class_room_chin/extension/DynamicColor.dart';
 import 'package:flutter/material.dart';
 
 class ClassoomMemberScreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class ClassoomMemberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final primaryColor = context.getDynamicColor.primary;
     return CustomScaffoldWithAppbar(
       title: 'Class memmber',
       child: Column(
